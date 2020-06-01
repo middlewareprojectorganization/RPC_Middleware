@@ -17,11 +17,8 @@
 package com.xxy.rpc.common.config.configcenter;
 
 
-import com.xxy.rpc.common.URL;
 import com.xxy.rpc.common.config.Configuration;
-import org.apache.logging.log4j.core.config.ConfigurationListener;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 
