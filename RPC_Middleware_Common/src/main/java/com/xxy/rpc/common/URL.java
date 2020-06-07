@@ -111,6 +111,13 @@ public class URL implements Serializable {
         this.parameters = Collections.unmodifiableMap(parameters);
         this.methodParameters = Collections.unmodifiableMap(methodParameters);
     }
+    public boolean getParameter(String key, boolean defaultValue) {
+        String value = getParameter(key);
+        return StringUtils.isEmpty(value) ? defaultValue : Boolean.parseBoolean(value);
+    }
+    public String getParameter(String key) {
+        return parameters.get(key);
+    }
     public static Map<String, Map<String, String>> toMethodParameters(Map<String, String> parameters) {
         Map<String, Map<String, String>> methodParameters = new HashMap<>();
         if (parameters != null) {
