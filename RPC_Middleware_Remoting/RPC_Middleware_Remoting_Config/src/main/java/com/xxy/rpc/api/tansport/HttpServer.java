@@ -92,24 +92,5 @@ public final class HttpServer {
         channel.close();
     }
 
-    public void registerCommand(String commandName, CommandHandler handler) {
-        if (StringUtils.isEmpty(commandName) || handler == null) {
-            return;
-        }
 
-        if (handlerMap.containsKey(commandName)) {
-            LOGGER.warn("[NettyHttpCommandCenter] Register failed (duplicate command): " + commandName);
-            return;
-        }
-
-        handlerMap.put(commandName, handler);
-    }
-
-    public void registerCommands(Map<String, CommandHandler> handlerMap) {
-        if (handlerMap != null) {
-            for (Entry<String, CommandHandler> e : handlerMap.entrySet()) {
-                registerCommand(e.getKey(), e.getValue());
-            }
-        }
-    }
 }

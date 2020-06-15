@@ -17,16 +17,16 @@
 package com.xxy.rpc.common.utils;
 
 import com.alibaba.fastjson.JSON;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.xxy.rpc.common.constants.CommonConstants;
+import com.xxy.rpc.common.logger.Logger;
+import com.xxy.rpc.common.logger.LoggerFactory;
+import com.xxy.rpc.common.io.UnsafeStringWriter;
 
 import java.io.PrintWriter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.xxy.rpc.common.constants.CommonConstants.*;
 import static java.lang.String.valueOf;
 
 /**
@@ -492,7 +492,7 @@ public final class StringUtils {
     }
 
     public static boolean isContains(String values, String value) {
-        return isNotEmpty(values) && isContains(COMMA_SPLIT_PATTERN.split(values), value);
+        return isNotEmpty(values) && isContains(CommonConstants.COMMA_SPLIT_PATTERN.split(values), value);
     }
 
     /**
@@ -748,12 +748,12 @@ public final class StringUtils {
 
     public static String getServiceKey(Map<String, String> ps) {
         StringBuilder buf = new StringBuilder();
-        String group = ps.get(GROUP_KEY);
+        String group = ps.get(CommonConstants.GROUP_KEY);
         if (isNotEmpty(group)) {
             buf.append(group).append("/");
         }
-        buf.append(ps.get(INTERFACE_KEY));
-        String version = ps.get(VERSION_KEY);
+        buf.append(ps.get(CommonConstants.INTERFACE_KEY));
+        String version = ps.get(CommonConstants.VERSION_KEY);
         if (isNotEmpty(group)) {
             buf.append(":").append(version);
         }
@@ -808,7 +808,7 @@ public final class StringUtils {
         StringBuilder buf = new StringBuilder();
         for (Object arg : args) {
             if (buf.length() > 0) {
-                buf.append(COMMA_SEPARATOR);
+                buf.append(CommonConstants.COMMA_SEPARATOR);
             }
             if (arg == null || ReflectUtils.isPrimitives(arg.getClass())) {
                 buf.append(arg);
@@ -829,11 +829,11 @@ public final class StringUtils {
     }
 
     public static String toURLKey(String key) {
-        return key.toLowerCase().replaceAll(SEPARATOR_REGEX, HIDE_KEY_PREFIX);
+        return key.toLowerCase().replaceAll(CommonConstants.SEPARATOR_REGEX, CommonConstants.HIDE_KEY_PREFIX);
     }
 
     public static String toOSStyleKey(String key) {
-        key = key.toUpperCase().replaceAll(DOT_REGEX, UNDERLINE_SEPARATOR);
+        key = key.toUpperCase().replaceAll(CommonConstants.DOT_REGEX, CommonConstants.UNDERLINE_SEPARATOR);
         if (!key.startsWith("DUBBO_")) {
             key = "DUBBO_" + key;
         }

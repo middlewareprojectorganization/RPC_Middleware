@@ -16,18 +16,21 @@
  */
 package com.xxy.rpc.api;
 
+import com.xxy.rpc.common.URL;
+import com.xxy.rpc.remoting.Transporter;
+
 import java.net.InetSocketAddress;
 
 /**
  * RemotingException. (API, Prototype, ThreadSafe)
  *
  * @export
- * @see org.apache.dubbo.remoting.exchange.support.DefaultFuture#get()
- * @see org.apache.dubbo.remoting.Channel#send(Object, boolean)
- * @see org.apache.dubbo.remoting.exchange.ExchangeChannel#request(Object)
- * @see org.apache.dubbo.remoting.exchange.ExchangeChannel#request(Object, int)
- * @see org.apache.dubbo.remoting.Transporter#bind(org.apache.dubbo.common.URL, ChannelHandler)
- * @see org.apache.dubbo.remoting.Transporter#connect(org.apache.dubbo.common.URL, ChannelHandler)
+ * @see com.xxy.rpc.remoting.exchange.support.DefaultFuture#get()
+ * @see com.xxy.rpc.remoting.Channel#send(Object, boolean)
+ * @see com.xxy.rpc.remoting.exchange.ExchangeChannel#request(Object)
+ * @see com.xxy.rpc.remoting.exchange.ExchangeChannel#request(Object, int)
+ * @see Transporter#bind(URL, ChannelHandler)
+ * @see Transporter#connect(URL, ChannelHandler)
  */
 public class RemotingException extends Exception {
 

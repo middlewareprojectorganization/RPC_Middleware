@@ -227,7 +227,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
         if (StringUtils.isEmpty(commandName)) {
             return null;
         }
-        return HttpServer.handlerMap.get(commandName);
+        return  HttpServer.handlerMap.get(commandName);
     }
 
     private void send100Continue(ChannelHandlerContext ctx) {

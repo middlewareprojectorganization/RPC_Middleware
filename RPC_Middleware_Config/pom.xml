@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>RPC_Middleware_Config_Api</module>
+        <module>RPC_Middleware_Config_Spring</module>
     </modules>
     <artifactId>RPC_Middleware_Config</artifactId>
 

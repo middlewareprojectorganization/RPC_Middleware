@@ -16,12 +16,14 @@
  */
 package com.xxy.rpc.api;
 
+import com.xxy.rpc.remoting.Client;
+
 import java.net.InetSocketAddress;
 
 /**
  * Channel. (API/SPI, Prototype, ThreadSafe)
  *
- * @see org.apache.dubbo.remoting.Client
+ * @see Client
  * @see RemotingServer#getChannels()
  * @see RemotingServer#getChannel(InetSocketAddress)
  */

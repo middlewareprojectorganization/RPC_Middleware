@@ -18,7 +18,6 @@ package com.xxy.rpc.netty4;
 
 import com.xxy.rpc.api.NamedThreadFactory;
 import com.xxy.rpc.api.tansport.CommandCenter;
-import com.xxy.rpc.api.tansport.CommandHandler;
 import com.xxy.rpc.api.tansport.HttpServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +41,11 @@ public class NettyHttpCommandCenter implements CommandCenter {
         new NamedThreadFactory("netty-command-center-executor"));
 
     @Override
+    public void beforeStart() throws Exception {
+
+    }
+
+    @Override
     public void start() throws Exception {
         pool.submit(new Runnable() {
             @Override
@@ -62,10 +66,4 @@ public class NettyHttpCommandCenter implements CommandCenter {
         pool.shutdownNow();
     }
 
-    @Override
-    public void beforeStart() throws Exception {
-        // Register handlers
-        Map<String, CommandHandler> handlers = new HashMap<>();
-        server.registerCommands(handlers);
-    }
 }
