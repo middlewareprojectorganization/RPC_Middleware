@@ -26,7 +26,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
 import static com.alibaba.spring.util.AnnotationUtils.getAttribute;
-import static com.xxy.rpc.spring.util.DubboAnnotationUtils.resolveInterfaceName;
+import static com.xxy.rpc.spring.util.RpcAnnotationUtils.resolveInterfaceName;
 import static org.springframework.core.annotation.AnnotationUtils.getAnnotationAttributes;
 
 /**

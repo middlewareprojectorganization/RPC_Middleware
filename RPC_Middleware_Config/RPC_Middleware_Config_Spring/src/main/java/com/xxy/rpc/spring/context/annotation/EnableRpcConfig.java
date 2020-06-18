@@ -18,9 +18,7 @@ package com.xxy.rpc.spring.context.annotation;
 
 import com.xxy.rpc.config.ApplicationConfig;
 import com.xxy.rpc.config.ConsumerConfig;
-import com.xxy.rpc.config.ModuleConfig;
 import com.xxy.rpc.config.MonitorConfig;
-import com.xxy.rpc.config.ProtocolConfig;
 import com.xxy.rpc.config.ProviderConfig;
 import com.xxy.rpc.config.RegistryConfig;
 
@@ -33,40 +31,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * As  a convenient and multiple {@link EnableRpcConfigBinding}
- * in default behavior , is equal to single bean bindings with below convention prefixes of properties:
- * <ul>
- * <li>{@link ApplicationConfig} binding to property : "dubbo.application"</li>
- * <li>{@link ModuleConfig} binding to property :  "dubbo.module"</li>
- * <li>{@link RegistryConfig} binding to property :  "dubbo.registry"</li>
- * <li>{@link ProtocolConfig} binding to property :  "dubbo.protocol"</li>
- * <li>{@link MonitorConfig} binding to property :  "dubbo.monitor"</li>
- * <li>{@link ProviderConfig} binding to property :  "dubbo.provider"</li>
- * <li>{@link ConsumerConfig} binding to property :  "dubbo.consumer"</li>
- * </ul>
- * <p>
- * In contrast, on multiple bean bindings that requires to set {@link #multiple()} to be <code>true</code> :
- * <ul>
- * <li>{@link ApplicationConfig} binding to property : "dubbo.applications"</li>
- * <li>{@link ModuleConfig} binding to property :  "dubbo.modules"</li>
- * <li>{@link RegistryConfig} binding to property :  "dubbo.registries"</li>
- * <li>{@link ProtocolConfig} binding to property :  "dubbo.protocols"</li>
- * <li>{@link MonitorConfig} binding to property :  "dubbo.monitors"</li>
- * <li>{@link ProviderConfig} binding to property :  "dubbo.providers"</li>
- * <li>{@link ConsumerConfig} binding to property :  "dubbo.consumers"</li>
- * </ul>
- *
- * @see EnableRpcConfigBinding
- * @see DubboConfigConfiguration
- * @see DubboConfigConfigurationRegistrar
- * @since 2.5.8
- */
+
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@Import(DubboConfigConfigurationRegistrar.class)
+@Import(RpcConfigConfigurationRegistrar.class)
 public @interface EnableRpcConfig {
 
     /**

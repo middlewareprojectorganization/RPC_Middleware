@@ -20,7 +20,6 @@ import com.xxy.rpc.common.utils.StringUtils;
 import com.xxy.rpc.config.ServiceConfig;
 import com.xxy.rpc.config.annotation.RpcService;
 import com.xxy.rpc.spring.context.event.ServiceBeanExportedEvent;
-import com.xxy.rpc.spring.extension.SpringExtensionFactory;
 import com.xxy.rpc.config.support.Parameter;
 
 import org.springframework.aop.support.AopUtils;
@@ -65,7 +64,6 @@ public class ServiceBean<T> extends ServiceConfig<T> implements InitializingBean
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
-        SpringExtensionFactory.addApplicationContext(applicationContext);
     }
 
     @Override

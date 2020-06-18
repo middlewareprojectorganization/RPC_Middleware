@@ -63,15 +63,6 @@ public class ConsumerConfig extends AbstractReferenceConfig {
      */
     private Integer shareconnections;
 
-    @Override
-    public void setTimeout(Integer timeout) {
-        super.setTimeout(timeout);
-        String rmiTimeout = System.getProperty("sun.rmi.transport.tcp.responseTimeout");
-        if (timeout != null && timeout > 0
-                && (StringUtils.isEmpty(rmiTimeout))) {
-            System.setProperty("sun.rmi.transport.tcp.responseTimeout", String.valueOf(timeout));
-        }
-    }
 
     public Boolean isDefault() {
         return isDefault;

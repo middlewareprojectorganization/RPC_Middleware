@@ -22,7 +22,7 @@ import com.xxy.rpc.common.utils.ArrayUtils;
 import com.xxy.rpc.config.*;
 import com.xxy.rpc.config.annotation.Method;
 import com.xxy.rpc.config.annotation.RpcService;
-import com.xxy.rpc.spring.context.annotation.DubboClassPathBeanDefinitionScanner;
+import com.xxy.rpc.spring.context.annotation.RpcClassPathBeanDefinitionScanner;
 import com.xxy.rpc.config.MethodConfig;
 import com.xxy.rpc.spring.ServiceBean;
 
@@ -67,7 +67,7 @@ import java.util.Set;
 
 import static com.alibaba.spring.util.ObjectUtils.of;
 import static com.xxy.rpc.spring.beans.factory.annotation.ServiceBeanNameBuilder.create;
-import static com.xxy.rpc.spring.util.DubboAnnotationUtils.resolveServiceInterfaceClass;
+import static com.xxy.rpc.spring.util.RpcAnnotationUtils.resolveServiceInterfaceClass;
 import static org.springframework.beans.factory.support.BeanDefinitionBuilder.rootBeanDefinition;
 import static org.springframework.context.annotation.AnnotationConfigUtils.CONFIGURATION_BEAN_NAME_GENERATOR;
 import static org.springframework.core.annotation.AnnotatedElementUtils.findMergedAnnotation;
@@ -131,8 +131,8 @@ public class ServiceAnnotationBeanPostProcessor implements BeanDefinitionRegistr
      */
     private void registerServiceBeans(Set<String> packagesToScan, BeanDefinitionRegistry registry) {
 
-        DubboClassPathBeanDefinitionScanner scanner =
-                new DubboClassPathBeanDefinitionScanner(registry, environment, resourceLoader);
+        RpcClassPathBeanDefinitionScanner scanner =
+                new RpcClassPathBeanDefinitionScanner(registry, environment, resourceLoader);
 
         BeanNameGenerator beanNameGenerator = resolveBeanNameGenerator(registry);
 
@@ -261,7 +261,7 @@ public class ServiceAnnotationBeanPostProcessor implements BeanDefinitionRegistr
      * @see BeanDefinition
      */
     private void registerServiceBean(BeanDefinitionHolder beanDefinitionHolder, BeanDefinitionRegistry registry,
-                                     DubboClassPathBeanDefinitionScanner scanner) {
+                                     RpcClassPathBeanDefinitionScanner scanner) {
 
         Class<?> beanClass = resolveClass(beanDefinitionHolder);
 

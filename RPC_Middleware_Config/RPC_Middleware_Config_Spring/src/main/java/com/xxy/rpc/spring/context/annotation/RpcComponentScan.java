@@ -16,26 +16,53 @@
  */
 package com.xxy.rpc.spring.context.annotation;
 
-import com.xxy.rpc.common.context.Lifecycle;
+
 
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Enables Dubbo {@link Lifecycle} components
- *
- * @since 2.7.5
+
+ * @since 2.5.7
  */
-@Target({ElementType.TYPE})
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Inherited
 @Documented
-@Import(RpcLifecycleComponentRegistrar.class)
-public @interface EnableDubboLifecycle {
+@Import(RpcComponentScanRegistrar.class)
+public @interface RpcComponentScan {
+
+    /**
+     * Alias for the {@link #basePackages()} attribute. Allows for more concise annotation
+     * declarations e.g.: {@code @DubboComponentScan("org.my.pkg")} instead of
+     * {@code @DubboComponentScan(basePackages="org.my.pkg")}.
+     *
+     * @return the base packages to scan
+     */
+    String[] value() default {};
+
+    /**
+     * Base packages to scan for annotated @Service classes. {@link #value()} is an
+     * alias for (and mutually exclusive with) this attribute.
+     * <p>
+     * Use {@link #basePackageClasses()} for a type-safe alternative to String-based
+     * package names.
+     *
+     * @return the base packages to scan
+     */
+    String[] basePackages() default {};
+
+    /**
+     * Type-safe alternative to {@link #basePackages()} for specifying the packages to
+     * scan for annotated @Service classes. The package of each class specified will be
+     * scanned.
+     *
+     * @return classes from the base packages to scan
+     */
+    Class<?>[] basePackageClasses() default {};
+
 }

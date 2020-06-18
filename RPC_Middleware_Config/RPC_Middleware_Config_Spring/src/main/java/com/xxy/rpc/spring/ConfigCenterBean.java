@@ -19,7 +19,6 @@ package com.xxy.rpc.spring;
 import com.xxy.rpc.common.config.ConfigurationUtils;
 import com.xxy.rpc.common.utils.StringUtils;
 import com.xxy.rpc.config.ConfigCenterConfig;
-import com.xxy.rpc.spring.extension.SpringExtensionFactory;
 
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
@@ -46,7 +45,6 @@ public class ConfigCenterBean extends ConfigCenterConfig implements ApplicationC
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
-        SpringExtensionFactory.addApplicationContext(applicationContext);
     }
 
     @Override

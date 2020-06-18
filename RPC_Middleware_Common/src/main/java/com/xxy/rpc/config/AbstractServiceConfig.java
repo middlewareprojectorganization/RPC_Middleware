@@ -17,7 +17,6 @@
 package com.xxy.rpc.config;
 
 import com.xxy.rpc.common.utils.CollectionUtils;
-import com.xxy.rpc.config.support.Parameter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +30,7 @@ import static com.xxy.rpc.common.constants.CommonConstants.SERVICE_FILTER_KEY;
  *
  * @export
  */
-public abstract class AbstractServiceConfig extends AbstractInterfaceConfig {
+public abstract class AbstractServiceConfig extends AbstractConfig {
 
     private static final long serialVersionUID = 1L;
 
@@ -90,7 +89,6 @@ public abstract class AbstractServiceConfig extends AbstractInterfaceConfig {
     /**
      * The protocol list the service will export with
      */
-    protected List<ProtocolConfig> protocols;
     protected String protocolIds;
 
     // max allowed execute times
@@ -151,135 +149,5 @@ public abstract class AbstractServiceConfig extends AbstractInterfaceConfig {
         this.weight = weight;
     }
 
-    @Parameter(escaped = true)
-    public String getDocument() {
-        return document;
-    }
 
-    public void setDocument(String document) {
-        this.document = document;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(Boolean token) {
-        if (token == null) {
-            setToken((String) null);
-        } else {
-            setToken(String.valueOf(token));
-        }
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public Boolean isDeprecated() {
-        return deprecated;
-    }
-
-    public void setDeprecated(Boolean deprecated) {
-        this.deprecated = deprecated;
-    }
-
-    public Boolean isDynamic() {
-        return dynamic;
-    }
-
-    public void setDynamic(Boolean dynamic) {
-        this.dynamic = dynamic;
-    }
-
-    public List<ProtocolConfig> getProtocols() {
-        return protocols;
-    }
-
-    @SuppressWarnings({"unchecked"})
-    public void setProtocols(List<? extends ProtocolConfig> protocols) {
-        this.protocols = (List<ProtocolConfig>) protocols;
-    }
-
-    public ProtocolConfig getProtocol() {
-        return CollectionUtils.isEmpty(protocols) ? null : protocols.get(0);
-    }
-
-    public void setProtocol(ProtocolConfig protocol) {
-        setProtocols(new ArrayList<>(Arrays.asList(protocol)));
-    }
-
-    @Parameter(excluded = true)
-    public String getProtocolIds() {
-        return protocolIds;
-    }
-
-    public void setProtocolIds(String protocolIds) {
-        this.protocolIds = protocolIds;
-    }
-
-    public String getAccesslog() {
-        return accesslog;
-    }
-
-    public void setAccesslog(Boolean accesslog) {
-        if (accesslog == null) {
-            setAccesslog((String) null);
-        } else {
-            setAccesslog(String.valueOf(accesslog));
-        }
-    }
-
-    public void setAccesslog(String accesslog) {
-        this.accesslog = accesslog;
-    }
-
-    public Integer getExecutes() {
-        return executes;
-    }
-
-    public void setExecutes(Integer executes) {
-        this.executes = executes;
-    }
-
-    @Override
-    @Parameter(key = SERVICE_FILTER_KEY, append = true)
-    public String getFilter() {
-        return super.getFilter();
-    }
-
-    @Override
-    @Parameter(key = EXPORTER_LISTENER_KEY, append = true)
-    public String getListener() {
-        return listener;
-    }
-
-    @Override
-    public void setListener(String listener) {
-        this.listener = listener;
-    }
-
-    public Boolean isRegister() {
-        return register;
-    }
-
-    public void setRegister(Boolean register) {
-        this.register = register;
-    }
-
-    public Integer getWarmup() {
-        return warmup;
-    }
-
-    public void setWarmup(Integer warmup) {
-        this.warmup = warmup;
-    }
-
-    public String getSerialization() {
-        return serialization;
-    }
-
-    public void setSerialization(String serialization) {
-        this.serialization = serialization;
-    }
 }

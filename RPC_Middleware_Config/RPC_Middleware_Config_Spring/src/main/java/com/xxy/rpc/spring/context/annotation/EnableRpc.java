@@ -29,10 +29,10 @@ import java.lang.annotation.Target;
 
 /**
  * Enables Dubbo components as Spring Beans, equals
- * {@link DubboComponentScan} and {@link EnableRpcConfig} combination.
+ * {@link RpcComponentScan} and {@link EnableRpcConfig} combination.
  * <p>
  *
- * @see DubboComponentScan
+ * @see RpcComponentScan
  * @see EnableRpcConfig
  * @since 2.5.8
  */
@@ -41,7 +41,7 @@ import java.lang.annotation.Target;
 @Inherited
 @Documented
 @EnableRpcConfig
-@DubboComponentScan
+@RpcComponentScan
 @EnableDubboLifecycle
 public @interface EnableRpc{
 
@@ -52,9 +52,9 @@ public @interface EnableRpc{
      * package names.
      *
      * @return the base packages to scan
-     * @see DubboComponentScan#basePackages()
+     * @see RpcComponentScan#basePackages()
      */
-    @AliasFor(annotation = DubboComponentScan.class, attribute = "basePackages")
+    @AliasFor(annotation = RpcComponentScan.class, attribute = "basePackages")
     String[] scanBasePackages() default {};
 
     /**
@@ -63,9 +63,9 @@ public @interface EnableRpc{
      * scanned.
      *
      * @return classes from the base packages to scan
-     * @see DubboComponentScan#basePackageClasses
+     * @see RpcComponentScan#basePackageClasses
      */
-    @AliasFor(annotation = DubboComponentScan.class, attribute = "basePackageClasses")
+    @AliasFor(annotation = RpcComponentScan.class, attribute = "basePackageClasses")
     Class<?>[] scanBasePackageClasses() default {};
 
 

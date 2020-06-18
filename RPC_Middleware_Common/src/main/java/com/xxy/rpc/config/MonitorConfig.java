@@ -18,7 +18,6 @@ package com.xxy.rpc.config;
 
 import com.xxy.rpc.common.constants.RegistryConstants;
 import com.xxy.rpc.common.utils.StringUtils;
-import com.xxy.rpc.config.support.Parameter;
 
 import java.util.Map;
 
@@ -71,90 +70,5 @@ public class MonitorConfig extends AbstractConfig {
     public MonitorConfig() {
     }
 
-    public MonitorConfig(String address) {
-        this.address = address;
-    }
-
-    @Parameter(excluded = true)
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    @Parameter(excluded = true)
-    public String getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
-    }
-
-    @Parameter(excluded = true)
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Parameter(excluded = true)
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public Map<String, String> getParameters() {
-        return parameters;
-    }
-
-    public void setParameters(Map<String, String> parameters) {
-        this.parameters = parameters;
-    }
-
-    public Boolean isDefault() {
-        return isDefault;
-    }
-
-    public void setDefault(Boolean isDefault) {
-        this.isDefault = isDefault;
-    }
-
-    public String getInterval() {
-        return interval;
-    }
-
-    public void setInterval(String interval) {
-        this.interval = interval;
-    }
-
-    @Override
-    @Parameter(excluded = true)
-    public boolean isValid() {
-        return StringUtils.isNotEmpty(address) || RegistryConstants.REGISTRY_PROTOCOL.equals(protocol);
-    }
 
 }

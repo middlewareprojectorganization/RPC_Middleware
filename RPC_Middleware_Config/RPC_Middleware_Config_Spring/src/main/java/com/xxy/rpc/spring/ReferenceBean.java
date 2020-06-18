@@ -16,20 +16,10 @@
  */
 package com.xxy.rpc.spring;
 
+import com.xxy.rpc.config.*;
 import com.xxy.rpc.config.annotation.RpcReference;
-import com.xxy.rpc.spring.extension.SpringExtensionFactory;
-import com.xxy.rpc.config.support.Parameter;
-import com.xxy.rpc.config.ApplicationConfig;
-import com.xxy.rpc.config.ConsumerConfig;
-import com.xxy.rpc.config.MetadataReportConfig;
-import com.xxy.rpc.config.MetricsConfig;
-import com.xxy.rpc.config.ModuleConfig;
-import com.xxy.rpc.config.MonitorConfig;
-import com.xxy.rpc.config.ProtocolConfig;
-import com.xxy.rpc.config.ProviderConfig;
-import com.xxy.rpc.config.ReferenceConfig;
-import com.xxy.rpc.config.RegistryConfig;
-import com.xxy.rpc.config.SslConfig;
+
+
 
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
@@ -54,13 +44,12 @@ public class ReferenceBean<T> extends ReferenceConfig<T> implements FactoryBean,
     }
 
     public ReferenceBean(RpcReference reference) {
-        super(reference);
+        super();
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
-        SpringExtensionFactory.addApplicationContext(applicationContext);
     }
 
     @Override
@@ -70,11 +59,10 @@ public class ReferenceBean<T> extends ReferenceConfig<T> implements FactoryBean,
 
     @Override
     public Class<?> getObjectType() {
-        return getInterfaceClass();
+        return null;
     }
 
     @Override
-    @Parameter(excluded = true)
     public boolean isSingleton() {
         return true;
     }
@@ -84,16 +72,11 @@ public class ReferenceBean<T> extends ReferenceConfig<T> implements FactoryBean,
      */
     private void prepareDubboConfigBeans() {
         beansOfTypeIncludingAncestors(applicationContext, ApplicationConfig.class);
-        beansOfTypeIncludingAncestors(applicationContext, ModuleConfig.class);
         beansOfTypeIncludingAncestors(applicationContext, RegistryConfig.class);
-        beansOfTypeIncludingAncestors(applicationContext, ProtocolConfig.class);
         beansOfTypeIncludingAncestors(applicationContext, MonitorConfig.class);
         beansOfTypeIncludingAncestors(applicationContext, ProviderConfig.class);
         beansOfTypeIncludingAncestors(applicationContext, ConsumerConfig.class);
         beansOfTypeIncludingAncestors(applicationContext, ConfigCenterBean.class);
-        beansOfTypeIncludingAncestors(applicationContext, MetadataReportConfig.class);
-        beansOfTypeIncludingAncestors(applicationContext, MetricsConfig.class);
-        beansOfTypeIncludingAncestors(applicationContext, SslConfig.class);
     }
 
     @Override
@@ -109,10 +92,7 @@ public class ReferenceBean<T> extends ReferenceConfig<T> implements FactoryBean,
         }
 
         // eager init if necessary.
-        if (shouldInit()) {
-            getObject();
-        }
-    }
+}
 
     @Override
     public void destroy() {

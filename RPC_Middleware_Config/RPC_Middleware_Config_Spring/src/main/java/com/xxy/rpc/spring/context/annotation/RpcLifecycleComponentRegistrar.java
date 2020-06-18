@@ -17,25 +17,25 @@
 package com.xxy.rpc.spring.context.annotation;
 
 import com.xxy.rpc.common.context.Lifecycle;
+import com.xxy.rpc.spring.context.RpcBootstrapApplicationListener;
+import com.xxy.rpc.spring.context.RpcLifecycleComponentApplicationListener;
 
-import org.springframework.context.annotation.Import;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.core.type.AnnotationMetadata;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import static com.alibaba.spring.util.AnnotatedBeanDefinitionRegistryUtils.registerBeans;
 
 /**
- * Enables Dubbo {@link Lifecycle} components
+ * A {@link ImportBeanDefinitionRegistrar register} for the {@link Lifecycle Dubbo Lifecycle} components
  *
  * @since 2.7.5
  */
-@Target({ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-@Inherited
-@Documented
-@Import(RpcLifecycleComponentRegistrar.class)
-public @interface EnableDubboLifecycle {
+public class RpcLifecycleComponentRegistrar implements ImportBeanDefinitionRegistrar {
+
+    @Override
+    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+        registerBeans(registry, RpcLifecycleComponentApplicationListener.class);
+        registerBeans(registry, RpcBootstrapApplicationListener.class);
+    }
 }

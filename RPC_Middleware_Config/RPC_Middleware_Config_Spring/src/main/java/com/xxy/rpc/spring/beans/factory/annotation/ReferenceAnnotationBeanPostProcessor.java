@@ -322,9 +322,6 @@ public class ReferenceAnnotationBeanPostProcessor extends AbstractAnnotationBean
                     .interfaceClass(referencedType);
             referenceBean = beanBuilder.build();
             referenceBeanCache.put(referenceBeanName, referenceBean);
-        } else if (!referencedType.isAssignableFrom(referenceBean.getInterfaceClass())) {
-            throw new IllegalArgumentException("reference bean name " + referenceBeanName + " has been duplicated, but interfaceClass " +
-                    referenceBean.getInterfaceClass().getName() + " cannot be assigned to " + referencedType.getName());
         }
         return referenceBean;
     }

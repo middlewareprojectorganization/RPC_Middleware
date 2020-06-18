@@ -18,8 +18,7 @@ package com.xxy.rpc.spring.beans.factory.annotation;
 
 import com.xxy.rpc.common.utils.CollectionUtils;
 import com.xxy.rpc.config.ConsumerConfig;
-import com.xxy.rpc.config.MethodConfig;
-import com.xxy.rpc.config.annotation.Method;
+
 import com.xxy.rpc.config.annotation.RpcReference;
 import com.xxy.rpc.spring.ReferenceBean;
 
@@ -38,7 +37,7 @@ import static com.alibaba.spring.util.AnnotationUtils.getAttribute;
 import static com.alibaba.spring.util.AnnotationUtils.getAttributes;
 import static com.alibaba.spring.util.BeanFactoryUtils.getOptionalBean;
 import static com.alibaba.spring.util.ObjectUtils.of;
-import static com.xxy.rpc.spring.util.DubboAnnotationUtils.resolveServiceInterfaceClass;
+import static com.xxy.rpc.spring.util.RpcAnnotationUtils.resolveServiceInterfaceClass;
 import static org.springframework.core.annotation.AnnotationAttributes.fromMap;
 import static org.springframework.util.StringUtils.commaDelimitedListToStringArray;
 
@@ -63,7 +62,7 @@ class ReferenceBeanBuilder extends AnnotatedInterfaceConfigBeanBuilder<Reference
             String interfaceClassName = getAttribute(attributes, "interfaceName");
             Assert.hasText(interfaceClassName,
                     "@Reference interfaceName() must be present when reference a generic service!");
-            referenceBean.setInterface(interfaceClassName);
+            //referenceBean.setInterface(interfaceClassName);
             return;
         }
 
@@ -72,7 +71,7 @@ class ReferenceBeanBuilder extends AnnotatedInterfaceConfigBeanBuilder<Reference
         Assert.isTrue(serviceInterfaceClass.isInterface(),
                 "The class of field or method that was annotated @Reference is not an interface!");
 
-        referenceBean.setInterface(serviceInterfaceClass);
+        //referenceBean.setInterface(serviceInterfaceClass);
 
     }
 
@@ -83,17 +82,11 @@ class ReferenceBeanBuilder extends AnnotatedInterfaceConfigBeanBuilder<Reference
 
         ConsumerConfig consumerConfig = getOptionalBean(applicationContext, consumerBeanName, ConsumerConfig.class);
 
-        referenceBean.setConsumer(consumerConfig);
+        //referenceBean.setConsumer(consumerConfig);
 
     }
 
-    void configureMethodConfig(AnnotationAttributes attributes, ReferenceBean<?> referenceBean) {
-        Method[] methods = (Method[]) attributes.get("methods");
-        List<MethodConfig> methodConfigs = MethodConfig.constructMethodConfig(methods);
-        if (!methodConfigs.isEmpty()) {
-            referenceBean.setMethods(methodConfigs);
-        }
-    }
+
 
     @Override
     protected ReferenceBean doBuild() {
@@ -160,7 +153,6 @@ class ReferenceBeanBuilder extends AnnotatedInterfaceConfigBeanBuilder<Reference
 
         configureConsumerConfig(attributes, bean);
 
-        configureMethodConfig(attributes, bean);
 
         bean.afterPropertiesSet();
 

@@ -1,7 +1,7 @@
 package com.xxy.rpc;
 
 import com.xxy.rpc.config.ConfigCenterConfig;
-import com.xxy.rpc.config.bootstrap.DubboBootstrap;
+import com.xxy.rpc.config.bootstrap.RpcBootstrap;
 import org.junit.Test;
 
 /**
@@ -12,13 +12,13 @@ public class ApplicationTest {
 
     @Test
     public void testStart(){
-        DubboBootstrap dubboBootstrap = DubboBootstrap.getInstance();
+        RpcBootstrap rpcBootstrap = RpcBootstrap.getInstance();
         ConfigCenterConfig configCenterConfig = new ConfigCenterConfig();
         configCenterConfig.setAddress("127.0.0.1:8080");
         configCenterConfig.setProtocol("config-center");
         configCenterConfig.setNamespace(null);
         configCenterConfig.setGroup(null);
-        dubboBootstrap.configCenter(configCenterConfig);
-        dubboBootstrap.start();
+        rpcBootstrap.configCenter(configCenterConfig);
+        rpcBootstrap.start();
     }
 }

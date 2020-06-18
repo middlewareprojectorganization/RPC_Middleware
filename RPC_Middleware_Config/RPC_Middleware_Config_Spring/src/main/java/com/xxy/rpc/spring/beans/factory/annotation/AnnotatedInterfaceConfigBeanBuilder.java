@@ -16,9 +16,8 @@
  */
 package com.xxy.rpc.spring.beans.factory.annotation;
 
-import com.xxy.rpc.config.AbstractInterfaceConfig;
+import com.xxy.rpc.config.AbstractConfig;
 import com.xxy.rpc.config.ApplicationConfig;
-import com.xxy.rpc.config.ModuleConfig;
 import com.xxy.rpc.config.MonitorConfig;
 import com.xxy.rpc.config.RegistryConfig;
 
@@ -35,15 +34,13 @@ import static com.alibaba.spring.util.BeanFactoryUtils.getBeans;
 import static com.alibaba.spring.util.BeanFactoryUtils.getOptionalBean;
 
 /**
- * An Abstract Builder to build {@link AbstractInterfaceConfig Interface Config} Bean that annotated
  * some {@link Annotation annotation}.
  *
  * @see ReferenceBeanBuilder
- * @see AbstractInterfaceConfig
  * @see AnnotationAttributes
  * @since 2.7.3
  */
-public abstract class AnnotatedInterfaceConfigBeanBuilder<C extends AbstractInterfaceConfig> {
+public abstract class AnnotatedInterfaceConfigBeanBuilder<C extends AbstractConfig> {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
@@ -110,7 +107,6 @@ public abstract class AnnotatedInterfaceConfigBeanBuilder<C extends AbstractInte
 
         configureApplicationConfig(configBean);
 
-        configureModuleConfig(configBean);
 
         postConfigureBean(attributes, configBean);
 
@@ -125,7 +121,7 @@ public abstract class AnnotatedInterfaceConfigBeanBuilder<C extends AbstractInte
 
         List<RegistryConfig> registryConfigs = getBeans(applicationContext, registryConfigBeanIds, RegistryConfig.class);
 
-        configBean.setRegistries(registryConfigs);
+        //configBean.setRegistries(registryConfigs);
 
     }
 
@@ -135,7 +131,7 @@ public abstract class AnnotatedInterfaceConfigBeanBuilder<C extends AbstractInte
 
         MonitorConfig monitorConfig = getOptionalBean(applicationContext, monitorBeanName, MonitorConfig.class);
 
-        configBean.setMonitor(monitorConfig);
+        //configBean.setMonitor(monitorConfig);
 
     }
 
@@ -146,23 +142,13 @@ public abstract class AnnotatedInterfaceConfigBeanBuilder<C extends AbstractInte
         ApplicationConfig applicationConfig =
                 getOptionalBean(applicationContext, applicationConfigBeanName, ApplicationConfig.class);
 
-        configBean.setApplication(applicationConfig);
+        //configBean.setApplication(applicationConfig);
 
     }
 
-    private void configureModuleConfig(C configBean) {
 
-        String moduleConfigBeanName = resolveModuleConfigBeanName(attributes);
-
-        ModuleConfig moduleConfig =
-                getOptionalBean(applicationContext, moduleConfigBeanName, ModuleConfig.class);
-
-        configBean.setModule(moduleConfig);
-
-    }
 
     /**
-     * Resolves the configBean name of {@link ModuleConfig}
      *
      * @param attributes {@link AnnotationAttributes}
      * @return
