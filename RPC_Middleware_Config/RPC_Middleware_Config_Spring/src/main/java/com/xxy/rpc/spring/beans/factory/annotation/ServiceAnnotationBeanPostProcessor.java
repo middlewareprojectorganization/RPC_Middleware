@@ -20,10 +20,8 @@ import com.xxy.rpc.common.logger.Logger;
 import com.xxy.rpc.common.logger.LoggerFactory;
 import com.xxy.rpc.common.utils.ArrayUtils;
 import com.xxy.rpc.config.*;
-import com.xxy.rpc.config.annotation.Method;
 import com.xxy.rpc.config.annotation.RpcService;
 import com.xxy.rpc.spring.context.annotation.RpcClassPathBeanDefinitionScanner;
-import com.xxy.rpc.config.MethodConfig;
 import com.xxy.rpc.spring.ServiceBean;
 
 import org.springframework.beans.BeansException;
@@ -391,11 +389,7 @@ public class ServiceAnnotationBeanPostProcessor implements BeanDefinitionRegistr
         builder.addPropertyValue("interface", interfaceClass.getName());
         // Convert parameters into map
         builder.addPropertyValue("parameters", convertParameters(serviceAnnotationAttributes.getStringArray("parameters")));
-        // Add methods parameters
-        List<MethodConfig> methodConfigs = convertMethodConfigs(serviceAnnotationAttributes.get("methods"));
-        if (!methodConfigs.isEmpty()) {
-            builder.addPropertyValue("methods", methodConfigs);
-        }
+
 
         /**
          * Add {@link ProviderConfig} Bean reference
@@ -456,12 +450,6 @@ public class ServiceAnnotationBeanPostProcessor implements BeanDefinitionRegistr
 
     }
 
-    private List convertMethodConfigs(Object methodsAnnotation) {
-        if (methodsAnnotation == null) {
-            return Collections.EMPTY_LIST;
-        }
-        return MethodConfig.constructMethodConfig((Method[]) methodsAnnotation);
-    }
 
     private ManagedList<RuntimeBeanReference> toRuntimeBeanReferences(String... beanNames) {
 

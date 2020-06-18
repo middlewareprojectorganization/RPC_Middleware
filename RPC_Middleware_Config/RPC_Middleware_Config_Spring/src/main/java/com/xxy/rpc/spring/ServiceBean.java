@@ -20,7 +20,6 @@ import com.xxy.rpc.common.utils.StringUtils;
 import com.xxy.rpc.config.ServiceConfig;
 import com.xxy.rpc.config.annotation.RpcService;
 import com.xxy.rpc.spring.context.event.ServiceBeanExportedEvent;
-import com.xxy.rpc.config.support.Parameter;
 
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.BeanNameAware;
@@ -57,7 +56,6 @@ public class ServiceBean<T> extends ServiceConfig<T> implements InitializingBean
     }
 
     public ServiceBean(RpcService service) {
-        super(service);
         this.service = service;
     }
 
@@ -80,13 +78,7 @@ public class ServiceBean<T> extends ServiceConfig<T> implements InitializingBean
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (StringUtils.isEmpty(getPath())) {
-            if (StringUtils.isNotEmpty(beanName)
-                    && StringUtils.isNotEmpty(getInterface())
-                    && beanName.startsWith(getInterface())) {
-                setPath(beanName);
-            }
-        }
+
     }
 
     /**
@@ -95,20 +87,10 @@ public class ServiceBean<T> extends ServiceConfig<T> implements InitializingBean
      * @return {@link ServiceBean}'s name
      * @since 2.6.5
      */
-    @Parameter(excluded = true)
     public String getBeanName() {
         return this.beanName;
     }
 
-    /**
-     * @since 2.6.5
-     */
-    @Override
-    public void exported() {
-        super.exported();
-        // Publish ServiceBeanExportedEvent
-        publishExportEvent();
-    }
 
     /**
      * @since 2.6.5
@@ -122,15 +104,6 @@ public class ServiceBean<T> extends ServiceConfig<T> implements InitializingBean
     public void destroy() throws Exception {
         // no need to call unexport() here, see
         // SpringExtensionFactory.ShutdownHookListener
-    }
-
-    // merged from dubbox
-    @Override
-    protected Class getServiceClass(T ref) {
-        if (AopUtils.isAopProxy(ref)) {
-            return AopUtils.getTargetClass(ref);
-        }
-        return super.getServiceClass(ref);
     }
 
     /**
