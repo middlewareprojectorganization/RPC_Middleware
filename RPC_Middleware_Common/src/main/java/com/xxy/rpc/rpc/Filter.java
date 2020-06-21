@@ -35,17 +35,13 @@ package com.xxy.rpc.rpc;
  * </pre>
  * Filter. (SPI, Singleton, ThreadSafe)
  *
- * @see com.xxy.rpc.rpc.filter.GenericFilter
- * @see com.xxy.rpc.rpc.filter.EchoFilter
- * @see com.xxy.rpc.rpc.filter.TokenFilter
- * @see com.xxy.rpc.rpc.filter.TpsLimitFilter
  */
 
 public interface Filter {
     /**
      * Make sure call invoker.invoke() in your implementation.
      */
-    Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException;
+    Result invoke(Invoker<?> invoker, Invocation invocation) throws Exception;
 
     /**
      * Please use {@link Listener#onMessage(Result, Invoker, Invocation)} instead.

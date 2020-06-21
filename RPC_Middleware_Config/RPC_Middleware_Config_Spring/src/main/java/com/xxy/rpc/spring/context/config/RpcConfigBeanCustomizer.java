@@ -17,23 +17,11 @@
 package com.xxy.rpc.spring.context.config;
 
 import com.xxy.rpc.config.AbstractConfig;
-import com.xxy.rpc.spring.context.properties.DubboConfigBinder;
 
 import com.alibaba.spring.context.config.ConfigurationBeanCustomizer;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.Ordered;
 
-/**
- * The Bean customizer for {@link AbstractConfig Dubbo Config}. Generally, The subclass will be  registered as a Spring
- * Bean that is used to {@link #customize(String, AbstractConfig) customize} {@link AbstractConfig Dubbo Config} bean
- * after {@link DubboConfigBinder#bind(String, AbstractConfig) its binding}.
- * <p>
- * If There are multiple {@link RpcConfigBeanCustomizer} beans in the Spring {@link ApplicationContext context}, they
- * are executed orderly, thus the subclass should be aware to implement the {@link #getOrder()} method.
- *
- * @see DubboConfigBinder#bind(String, AbstractConfig)
- * @since 2.6.6
- */
+
 public interface RpcConfigBeanCustomizer extends ConfigurationBeanCustomizer, Ordered {
 
     /**

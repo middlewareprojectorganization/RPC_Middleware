@@ -40,9 +40,7 @@ import static com.alibaba.spring.util.BeanRegistrar.registerInfrastructureBean;
 import static org.springframework.beans.factory.support.BeanDefinitionBuilder.rootBeanDefinition;
 
 /**
- * Dubbo {@link RpcComponentScan} Bean Registrar
  *
-
  * @see RpcComponentScan
  * @see ImportBeanDefinitionRegistrar
  * @see ServiceAnnotationBeanPostProcessor

@@ -49,14 +49,14 @@ public class RpcConfigConfigurationRegistrar implements ImportBeanDefinitionRegi
         registerBeans(registry, RpcConfigConfiguration.Single.class);
 
         // Register DubboConfigAliasPostProcessor
-        registerDubboConfigAliasPostProcessor(registry);
+        registerRpcConfigAliasPostProcessor(registry);
 
         // Register NamePropertyDefaultValueDubboConfigBeanCustomizer
-        registerDubboConfigBeanCustomizers(registry);
+        registerRpcConfigBeanCustomizers(registry);
 
     }
 
-    private void registerDubboConfigBeanCustomizers(BeanDefinitionRegistry registry) {
+    private void registerRpcConfigBeanCustomizers(BeanDefinitionRegistry registry) {
         registerInfrastructureBean(registry, NamePropertyDefaultValueRpcConfigBeanCustomizer.BEAN_NAME, NamePropertyDefaultValueRpcConfigBeanCustomizer.class);
     }
 
@@ -66,7 +66,7 @@ public class RpcConfigConfigurationRegistrar implements ImportBeanDefinitionRegi
      * @param registry {@link BeanDefinitionRegistry}
      * @since 2.7.4 [Feature] https://github.com/apache/dubbo/issues/5093
      */
-    private void registerDubboConfigAliasPostProcessor(BeanDefinitionRegistry registry) {
+    private void registerRpcConfigAliasPostProcessor(BeanDefinitionRegistry registry) {
         registerInfrastructureBean(registry, RpcConfigAliasPostProcessor.BEAN_NAME, RpcConfigAliasPostProcessor.class);
     }
 

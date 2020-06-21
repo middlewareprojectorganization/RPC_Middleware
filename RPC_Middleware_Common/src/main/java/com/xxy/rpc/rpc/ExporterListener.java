@@ -31,7 +31,7 @@ public interface ExporterListener {
      * @throws RpcException
      * @see Protocol#export(Invoker)
      */
-    void exported(Exporter<?> exporter) throws RpcException;
+    void exported(Exporter<?> exporter) throws Exception;
 
     /**
      * The exporter unexported.

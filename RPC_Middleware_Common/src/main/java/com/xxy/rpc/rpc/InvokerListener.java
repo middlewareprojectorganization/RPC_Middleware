@@ -32,7 +32,7 @@ public interface InvokerListener {
      * @throws RpcException
      * @see Protocol#refer(Class, URL)
      */
-    void referred(Invoker<?> invoker) throws RpcException;
+    void referred(Invoker<?> invoker) throws Exception;
 
     /**
      * The invoker destroyed.

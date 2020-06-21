@@ -12,13 +12,6 @@ public class ApplicationTest {
 
     @Test
     public void testStart(){
-        RpcBootstrap rpcBootstrap = RpcBootstrap.getInstance();
-        ConfigCenterConfig configCenterConfig = new ConfigCenterConfig();
-        configCenterConfig.setAddress("127.0.0.1:8080");
-        configCenterConfig.setProtocol("config-center");
-        configCenterConfig.setNamespace(null);
-        configCenterConfig.setGroup(null);
-        rpcBootstrap.configCenter(configCenterConfig);
-        rpcBootstrap.start();
+
     }
 }

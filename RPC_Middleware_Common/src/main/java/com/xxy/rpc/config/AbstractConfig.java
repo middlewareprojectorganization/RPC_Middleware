@@ -48,32 +48,13 @@ public abstract class AbstractConfig implements Serializable {
     private static final long serialVersionUID = 4267533505537413570L;
 
 
-
-
-
-
     public static void appendParameters(Map<String, String> parameters, Object config) {
         appendParameters(parameters, config, null);
     }
-
     @SuppressWarnings("unchecked")
     public static void appendParameters(Map<String, String> parameters, Object config, String prefix) {
 
     }
-
-    @Deprecated
-    protected static void appendAttributes(Map<String, Object> parameters, Object config) {
-        appendAttributes(parameters, config, null);
-    }
-
-    @Deprecated
-    protected static void appendAttributes(Map<String, Object> parameters, Object config, String prefix) {
-
-    }
-
-
-
-
 
 
     public void refresh() {

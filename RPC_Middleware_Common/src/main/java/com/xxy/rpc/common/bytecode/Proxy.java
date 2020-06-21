@@ -18,7 +18,6 @@ package com.xxy.rpc.common.bytecode;
 
 import com.xxy.rpc.common.constants.CommonConstants;
 import com.xxy.rpc.common.utils.ReflectUtils;
-import com.xxy.rpc.registry.client.ServiceInstance;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -55,7 +54,7 @@ public abstract class Proxy {
      * @param ics interface class array.
      * @return Proxy instance.
      */
-    public static Proxy getProxy(ServiceInstance ics) {
+    public static Proxy getProxy(Object ics) {
      return  null;
     }
 

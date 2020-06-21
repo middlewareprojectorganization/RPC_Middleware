@@ -23,7 +23,6 @@ import com.xxy.rpc.config.ConfigCenterConfig;
 import com.xxy.rpc.common.config.configcenter.DynamicConfiguration;
 import com.xxy.rpc.common.utils.StringUtils;
 import com.xxy.rpc.config.context.ConfigManager;
-import com.xxy.rpc.rpc.model.ApplicationModel;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -49,14 +48,7 @@ public class Environment extends LifecycleAdapter implements FrameworkExt {
 
     @Override
     public void initialize() throws IllegalStateException {
-        ConfigManager configManager = ApplicationModel.getConfigManager();
-        Optional<Collection<ConfigCenterConfig>> defaultConfigs = configManager.getDefaultConfigCenter();
-        defaultConfigs.ifPresent(configs -> {
-            for (ConfigCenterConfig config : configs) {
-                this.setExternalConfigMap(config.getExternalConfiguration());
-                this.setAppExternalConfigMap(config.getAppExternalConfiguration());
-            }
-        });
+
     }
 
     public PropertiesConfiguration getPropertiesConfig(String prefix, String id) {

@@ -17,7 +17,6 @@
 package com.xxy.rpc.event;
 
 
-import com.xxy.rpc.common.lang.Prioritized;
 import com.xxy.rpc.common.utils.ReflectUtils;
 
 import java.lang.reflect.ParameterizedType;
@@ -29,7 +28,6 @@ import java.util.Objects;
  * the generic {@link Event}.
  * <p>
  * The {@link #onEvent(Event) handle method} will be notified when the matched-type {@link Event Dubbo Event} is
- * published, whose priority could be changed by {@link #getPriority()} method.
  *
  * @param <E> the concrete class of {@link Event Dubbo Event}
  * @see Event 
@@ -38,7 +36,7 @@ import java.util.Objects;
  */
 
 @FunctionalInterface
-public interface EventListener<E extends Event> extends java.util.EventListener, Prioritized {
+public interface EventListener<E extends Event> extends java.util.EventListener {
 
     /**
      * Handle a {@link Event Dubbo Event} when it's be published
@@ -47,16 +45,7 @@ public interface EventListener<E extends Event> extends java.util.EventListener,
      */
     void onEvent(E event);
 
-    /**
-     * The priority of {@link EventListener current listener}.
-     *
-     * @return the value is more greater, the priority is more lower.
-     * {@link Integer#MIN_VALUE} indicates the highest priority. The default value is {@link Integer#MAX_VALUE}.
-     * The comparison rule , refer to {@link #compareTo}.
-     */
-    default int getPriority() {
-        return MIN_PRIORITY;
-    }
+
 
     /**
      * Find the {@link Class type} {@link Event Dubbo event} from the specified {@link EventListener Dubbo event listener}

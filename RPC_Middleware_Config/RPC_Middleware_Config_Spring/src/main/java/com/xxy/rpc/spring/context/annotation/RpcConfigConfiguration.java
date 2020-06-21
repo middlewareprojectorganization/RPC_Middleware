@@ -20,14 +20,9 @@ import com.xxy.rpc.config.*;
 import com.xxy.rpc.config.AbstractConfig;
 import com.xxy.rpc.config.ApplicationConfig;
 import com.xxy.rpc.config.ConsumerConfig;
-import com.xxy.rpc.config.MetadataReportConfig;
-import com.xxy.rpc.config.MetricsConfig;
-import com.xxy.rpc.config.ModuleConfig;
 import com.xxy.rpc.config.MonitorConfig;
-import com.xxy.rpc.config.ProtocolConfig;
 import com.xxy.rpc.config.ProviderConfig;
 import com.xxy.rpc.config.RegistryConfig;
-import com.xxy.rpc.config.SslConfig;
 import com.xxy.rpc.spring.ConfigCenterBean;
 
 import com.alibaba.spring.beans.factory.annotation.EnableConfigurationBeanBinding;
@@ -63,7 +58,6 @@ public class RpcConfigConfiguration {
             @EnableConfigurationBeanBinding(prefix = "rpc.provider", type = ProviderConfig.class),
             @EnableConfigurationBeanBinding(prefix = "rpc.consumer", type = ConsumerConfig.class),
             @EnableConfigurationBeanBinding(prefix = "rpc.config-center", type = ConfigCenterBean.class),
-            @EnableConfigurationBeanBinding(prefix = "rpc.metrics", type = MetricsConfig.class)
     })
     public static class Single {
 

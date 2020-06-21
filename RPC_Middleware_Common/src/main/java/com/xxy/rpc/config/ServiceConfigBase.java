@@ -85,4 +85,59 @@ public abstract class ServiceConfigBase<T> extends AbstractServiceConfig {
 
     public abstract boolean isUnexported();
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public ProviderConfig getProvider() {
+        return provider;
+    }
+
+    public void setProvider(ProviderConfig provider) {
+        this.provider = provider;
+    }
+
+    public String getProviderIds() {
+        return providerIds;
+    }
+
+    public void setProviderIds(String providerIds) {
+        this.providerIds = providerIds;
+    }
+
+    public String getGeneric() {
+        return generic;
+    }
+
+    public void setGeneric(String generic) {
+        this.generic = generic;
+    }
+
+    public String getInterfaceName() {
+        return interfaceName;
+    }
+
+    public void setInterfaceName(String interfaceName) {
+        this.interfaceName = interfaceName;
+    }
+
+    public Class<?> getInterface() {
+        return interfaceClass;
+    }
+
+    public void setInterface(Class<?> interfaceClass) {
+        this.interfaceClass = interfaceClass;
+    }
+
+    public T getRef() {
+        return ref;
+    }
+
+    public void setRef(T ref) {
+        this.ref = ref;
+    }
 }

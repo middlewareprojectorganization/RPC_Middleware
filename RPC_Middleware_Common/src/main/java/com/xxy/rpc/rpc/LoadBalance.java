@@ -18,7 +18,6 @@ package com.xxy.rpc.rpc;
 
 
 import com.xxy.rpc.common.URL;
-import com.xxy.rpc.rpc.cluster.loadbalance.RandomLoadBalance;
 
 import java.util.List;
 
@@ -39,6 +38,6 @@ public interface LoadBalance {
      * @param invocation invocation.
      * @return selected invoker.
      */
-    <T> Invoker<T> select(List<Invoker<T>> invokers, URL url, Invocation invocation) throws RpcException;
+    <T> Invoker<T> select(List<Invoker<T>> invokers, URL url, Invocation invocation) throws Exception;
 
 }

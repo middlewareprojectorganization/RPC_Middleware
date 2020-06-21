@@ -33,7 +33,6 @@ import static com.xxy.rpc.config.Constants.REGISTRIES_SUFFIX;
  */
 public class RegistryConfig extends AbstractConfig {
 
-    public static final String NO_AVAILABLE = "N/A";
     private static final long serialVersionUID = 5508512956753757169L;
 
     /**
@@ -56,117 +55,65 @@ public class RegistryConfig extends AbstractConfig {
      */
     private Integer port;
 
-    /**
-     * Protocol for register center
-     */
-
-    /**
-     * Network transmission type
-     */
-    private String transporter;
-
-    private String server;
-
-    private String client;
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Session timeout in milliseconds for register center
-     */
-    private Integer session;
-
-    /**
-     * File for saving register center dynamic list
-     */
-    private String file;
-
-    /**
-     * Wait time before stop
-     */
-    private Integer wait;
-
-    /**
-     * Whether to check if register center is available when boot up
-     */
-    private Boolean check;
-
-    /**
-     * Whether to allow dynamic service to register on the register center
-     */
-    private Boolean dynamic;
-
-    /**
-     * Whether to export service on the register center
-     */
-    private Boolean register;
-
-    /**
-     * Whether allow to subscribe service on the register center
-     */
-    private Boolean subscribe;
 
     /**
      * The customized parameters
      */
     private Map<String, String> parameters;
 
-    /**
-     * Whether it's default
-     */
-    private Boolean isDefault;
-
-    /**
-     * Simple the registry. both useful for provider and consumer
-     *
-     * @since 2.7.0
-     */
-    private Boolean simplified;
-    /**
-     * After simplify the registry, should add some paramter individually. just for provider.
-     * <p>
-     * such as: extra-keys = A,b,c,d
-     *
-     * @since 2.7.0
-     */
-    private String extraKeys;
-
-    /**
-     * the address work as config center or not
-     */
-    private Boolean useAsConfigCenter;
-
-    /**
-     * the address work as remote metadata center or not
-     */
-    private Boolean useAsMetadataCenter;
-
-    /**
-     * list of rpc protocols accepted by this registry, for example, "dubbo,rest"
-     */
-    private String accepts;
-
-    /**
-     * Always use this registry first if set to true, useful when subscribe to multiple registries
-     */
-    private Boolean preferred;
-
-    /**
-     * Affects traffic distribution among registries, useful when subscribe to multiple registries
-     * Take effect only when no preferred registry is specified.
-     */
-    private Integer weight;
 
     public RegistryConfig() {
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
+    public String getAddress() {
+        return address;
+    }
 
+    public void setAddress(String address) {
+        this.address = address;
+        if (address != null) {
+            try {
+                URL url = URL.valueOf(address);
+                setUsername(url.getUsername());
+                setPassword(url.getPassword());
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
+    }
+
+    public Map<String, String> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(Map<String, String> parameters) {
+        this.parameters = parameters;
+    }
 }

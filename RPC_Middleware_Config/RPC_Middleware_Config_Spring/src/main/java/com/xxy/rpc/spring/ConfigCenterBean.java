@@ -41,7 +41,10 @@ public class ConfigCenterBean extends ConfigCenterConfig implements ApplicationC
     private transient ApplicationContext applicationContext;
 
     private Boolean includeSpringEnv = false;
+    private Map<String, String> parameters;
+    private Map<String, String> externalConfiguration;
 
+    private Map<String, String> appExternalConfiguration;
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
@@ -54,12 +57,7 @@ public class ConfigCenterBean extends ConfigCenterConfig implements ApplicationC
 
     @Override
     public void setEnvironment(Environment environment) {
-        if (includeSpringEnv) {
-            // Get PropertySource mapped to 'dubbo.properties' in Spring Environment.
-            setExternalConfig(getConfigurations(getConfigFile(), environment));
-            // Get PropertySource mapped to 'application.dubbo.properties' in Spring Environment.
-            setAppExternalConfig(getConfigurations(StringUtils.isNotEmpty(getAppConfigFile()) ? getAppConfigFile() : ("application." + getConfigFile()), environment));
-        }
+
     }
 
     private Map<String, String> getConfigurations(String key, Environment environment) {

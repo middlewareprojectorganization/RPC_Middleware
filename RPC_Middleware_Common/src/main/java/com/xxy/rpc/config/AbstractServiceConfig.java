@@ -149,5 +149,83 @@ public abstract class AbstractServiceConfig extends AbstractConfig {
         this.weight = weight;
     }
 
+    public Boolean getDeprecated() {
+        return deprecated;
+    }
 
+    public void setDeprecated(Boolean deprecated) {
+        this.deprecated = deprecated;
+    }
+
+    public String getDocument() {
+        return document;
+    }
+
+    public void setDocument(String document) {
+        this.document = document;
+    }
+
+    public Boolean getDynamic() {
+        return dynamic;
+    }
+
+    public void setDynamic(Boolean dynamic) {
+        this.dynamic = dynamic;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getAccesslog() {
+        return accesslog;
+    }
+
+    public void setAccesslog(String accesslog) {
+        this.accesslog = accesslog;
+    }
+
+    public String getProtocolIds() {
+        return protocolIds;
+    }
+
+    public void setProtocolIds(String protocolIds) {
+        this.protocolIds = protocolIds;
+    }
+
+    public Integer getExecutes() {
+        return executes;
+    }
+
+    public void setExecutes(Integer executes) {
+        this.executes = executes;
+    }
+
+    public Boolean getRegister() {
+        return register;
+    }
+
+    public void setRegister(Boolean register) {
+        this.register = register;
+    }
+
+    public Integer getWarmup() {
+        return warmup;
+    }
+
+    public void setWarmup(Integer warmup) {
+        this.warmup = warmup;
+    }
+
+    public String getSerialization() {
+        return serialization;
+    }
+
+    public void setSerialization(String serialization) {
+        this.serialization = serialization;
+    }
 }

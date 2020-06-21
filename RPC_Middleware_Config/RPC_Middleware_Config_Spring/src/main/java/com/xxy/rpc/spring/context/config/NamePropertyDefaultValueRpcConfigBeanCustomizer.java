@@ -40,7 +40,7 @@ public class NamePropertyDefaultValueRpcConfigBeanCustomizer implements RpcConfi
      *
      * @since 2.7.1
      */
-    public static final String BEAN_NAME = "namePropertyDefaultValue    DubboConfigBeanCustomizer";
+    public static final String BEAN_NAME = "namePropertyDefaultValue    RpcConfigBeanCustomizer";
 
     /**
      * The name of property that is "name" maybe is absent in target class

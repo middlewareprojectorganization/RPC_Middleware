@@ -53,7 +53,6 @@ public class ServiceConfig<T> extends ServiceConfigBase<T> {
      */
     private static final ScheduledExecutorService DELAY_EXPORT_EXECUTOR = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("DubboServiceDelayExporter", true));
 
-    private static final Protocol protocol = null;
 
     /**
      * A {@link ProxyFactory} implementation that will generate a exported service proxy,the JavassistProxyFactory is its
@@ -106,4 +105,5 @@ public class ServiceConfig<T> extends ServiceConfigBase<T> {
     public void setBootstrap(RpcBootstrap bootstrap) {
         this.bootstrap = bootstrap;
     }
+
 }

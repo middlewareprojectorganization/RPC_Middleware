@@ -30,7 +30,7 @@ public interface ProxyFactory {
      * @param invoker
      * @return proxy
      */
-    <T> T getProxy(Invoker<T> invoker) throws RpcException;
+    <T> T getProxy(Invoker<T> invoker) throws Exception;
 
     /**
      * create proxy.
@@ -38,7 +38,7 @@ public interface ProxyFactory {
      * @param invoker
      * @return proxy
      */
-    <T> T getProxy(Invoker<T> invoker, boolean generic) throws RpcException;
+    <T> T getProxy(Invoker<T> invoker, boolean generic) throws Exception;
 
     /**
      * create invoker.
@@ -49,6 +49,6 @@ public interface ProxyFactory {
      * @param url
      * @return invoker
      */
-    <T> Invoker<T> getInvoker(T proxy, Class<T> type, URL url) throws RpcException;
+    <T> Invoker<T> getInvoker(T proxy, Class<T> type, URL url) throws Exception;
 
 }

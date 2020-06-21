@@ -15,6 +15,7 @@
     <module>RPC_Middleware_Registry</module>
     <module>RPC_Middleware_Remoting</module>
     <module>RPC_Middleware_ConfigCenter</module>
+      <module>RPC_Middleware_Demo</module>
   </modules>
   <packaging>pom</packaging>
 

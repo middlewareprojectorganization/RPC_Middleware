@@ -25,7 +25,6 @@ import java.util.List;
  * <p>
  * <a href="http://en.wikipedia.org/wiki/Directory_service">Directory Service</a>
  *
- * @see com.xxy.rpc.rpc.cluster.Cluster#join(com.xxy.rpc.rpc.cluster.Directory)
  */
 public interface Directory<T> extends Node {
 
@@ -41,7 +40,7 @@ public interface Directory<T> extends Node {
      *
      * @return invokers
      */
-    List<Invoker<T>> list(Invocation invocation) throws RpcException;
+    List<Invoker<T>> list(Invocation invocation) throws Exception;
 
     List<Invoker<T>> getAllInvokers();
 

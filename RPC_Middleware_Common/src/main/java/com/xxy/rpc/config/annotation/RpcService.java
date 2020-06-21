@@ -263,9 +263,5 @@ public @interface RpcService {
      */
     String tag() default "";
 
-    /**
-     * methods support
-     * @return
-     */
-    Method[] methods() default {};
+
 }

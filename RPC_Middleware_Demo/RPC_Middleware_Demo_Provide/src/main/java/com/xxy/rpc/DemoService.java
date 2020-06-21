@@ -14,34 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.xxy.rpc.rpc;
+package com.xxy.rpc;
 
-import com.xxy.rpc.common.URL;
-import com.xxy.rpc.remoting.RemotingServer;
+import java.util.concurrent.CompletableFuture;
 
-/**
- * Distinct from {@link RemotingServer}, each protocol holds one or more ProtocolServers(the number usually decides by port numbers),
- * while each ProtocolServer holds zero or one RemotingServer.
- */
-public interface ProtocolServer {
+public interface DemoService {
 
-    default RemotingServer getRemotingServer() {
-        return null;
+    String sayHello(String name);
+
+    default CompletableFuture<String> sayHelloAsync(String name) {
+        return CompletableFuture.completedFuture(sayHello(name));
     }
 
-    default void setRemotingServers(RemotingServer server) {
-    }
-
-    String getAddress();
-
-    void setAddress(String address);
-
-    default URL getUrl() {
-        return null;
-    }
-
-    default void reset(URL url) {
-    }
-
-    void close();
 }

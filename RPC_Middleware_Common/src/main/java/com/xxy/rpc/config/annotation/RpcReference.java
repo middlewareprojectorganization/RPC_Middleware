@@ -258,12 +258,7 @@ public @interface RpcReference {
      */
     String tag() default "";
 
-    /**
-     * methods support
-     *
-     * @return
-     */
-    Method[] methods() default {};
+
 
     /**
      * The id

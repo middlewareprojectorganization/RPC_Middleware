@@ -39,7 +39,7 @@ public class RpcConfigAliasPostProcessor implements BeanDefinitionRegistryPostPr
     /**
      * The bean name of {@link RpcConfigConfigurationRegistrar}
      */
-    public final static String BEAN_NAME = "dubboConfigAliasPostProcessor";
+    public final static String BEAN_NAME = "rpcConfigAliasPostProcessor";
 
     private BeanDefinitionRegistry registry;
 
@@ -61,14 +61,6 @@ public class RpcConfigAliasPostProcessor implements BeanDefinitionRegistryPostPr
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        if (bean instanceof AbstractConfig) {
-            String id = ((AbstractConfig) bean).getId();
-            if (hasText(id)                                     // id MUST be present in AbstractConfig
-                    && !nullSafeEquals(id, beanName)            // id MUST NOT be equal to bean name
-                    && !hasAlias(registry, beanName, id)) {     // id MUST NOT be present in AliasRegistry
-                registry.registerAlias(beanName, id);
-            }
-        }
         return bean;
     }
 }

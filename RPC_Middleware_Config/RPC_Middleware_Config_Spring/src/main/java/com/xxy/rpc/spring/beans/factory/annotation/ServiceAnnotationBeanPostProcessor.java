@@ -138,14 +138,6 @@ public class ServiceAnnotationBeanPostProcessor implements BeanDefinitionRegistr
 
         scanner.addIncludeFilter(new AnnotationTypeFilter(RpcService.class));
 
-        /**
-         * Add the compatibility for legacy Dubbo's @Service
-         *
-         * The issue : https://github.com/apache/dubbo/issues/4330
-         * @since 2.7.3
-         */
-        scanner.addIncludeFilter(new AnnotationTypeFilter(RpcService.class));
-
         for (String packageToScan : packagesToScan) {
 
             // Registers @Service Bean first
@@ -387,9 +379,6 @@ public class ServiceAnnotationBeanPostProcessor implements BeanDefinitionRegistr
         addPropertyReference(builder, "ref", annotatedServiceBeanName);
         // Set interface
         builder.addPropertyValue("interface", interfaceClass.getName());
-        // Convert parameters into map
-        builder.addPropertyValue("parameters", convertParameters(serviceAnnotationAttributes.getStringArray("parameters")));
-
 
         /**
          * Add {@link ProviderConfig} Bean reference

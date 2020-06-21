@@ -20,7 +20,6 @@ import com.xxy.rpc.common.constants.CommonConstants;
 import com.xxy.rpc.common.logger.Logger;
 import com.xxy.rpc.common.logger.LoggerFactory;
 import com.xxy.rpc.common.utils.StringUtils;
-import com.xxy.rpc.rpc.model.ApplicationModel;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -34,38 +33,13 @@ import java.util.Properties;
 public class ConfigurationUtils {
     private static final Logger logger = LoggerFactory.getLogger(ConfigurationUtils.class);
 
-    // FIXME
-    @SuppressWarnings("deprecation")
-    public static int getServerShutdownTimeout() {
-        int timeout = CommonConstants.DEFAULT_SERVER_SHUTDOWN_TIMEOUT;
-        Configuration configuration = ApplicationModel.getEnvironment().getConfiguration();
-        String value = StringUtils.trim(configuration.getString(CommonConstants.SHUTDOWN_WAIT_KEY));
-
-        if (value != null && value.length() > 0) {
-            try {
-                timeout = Integer.parseInt(value);
-            } catch (Exception e) {
-                // ignore
-            }
-        } else {
-            value = StringUtils.trim(configuration.getString(CommonConstants.SHUTDOWN_WAIT_SECONDS_KEY));
-            if (value != null && value.length() > 0) {
-                try {
-                    timeout = Integer.parseInt(value) * 1000;
-                } catch (Exception e) {
-                    // ignore
-                }
-            }
-        }
-        return timeout;
-    }
 
     public static String getProperty(String property) {
         return getProperty(property, null);
     }
 
     public static String getProperty(String property, String defaultValue) {
-        return StringUtils.trim(ApplicationModel.getEnvironment().getConfiguration().getString(property, defaultValue));
+        return "";
     }
 
     public static Map<String, String> parseProperties(String content) throws IOException {

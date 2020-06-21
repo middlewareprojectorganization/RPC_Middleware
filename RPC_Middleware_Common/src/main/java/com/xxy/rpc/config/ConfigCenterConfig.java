@@ -37,55 +37,71 @@ import static com.xxy.rpc.config.Constants.ZOOKEEPER_PROTOCOL;
  */
 public class ConfigCenterConfig extends AbstractConfig {
     private AtomicBoolean inited = new AtomicBoolean(false);
-
-    private String protocol;
     private String address;
-
-    /* The config center cluster, it's real meaning may very on different Config Center products. */
-    private String cluster;
-
-    /* The namespace of the config center, generally it's used for multi-tenant,
-    but it's real meaning depends on the actual Config Center you use.
-    */
-
-    private String namespace = CommonConstants.DUBBO;
-    /* The group of the config center, generally it's used to identify an isolated space for a batch of config items,
-    but it's real meaning depends on the actual Config Center you use.
-    */
-    private String group = CommonConstants.DUBBO;
     private String username;
     private String password;
     private Long timeout = 3000L;
-
-    // If the Config Center is given the highest priority, it will override all the other configurations
-    private Boolean highestPriority = true;
-
-    // Decide the behaviour when initial connection try fails, 'true' means interrupt the whole process once fail.
-    private Boolean check = true;
-
-    /* Used to specify the key that your properties file mapping to, most of the time you do not need to change this parameter.
-    Notice that for Apollo, this parameter is meaningless, set the 'namespace' is enough.
-    */
-    private String configFile = CommonConstants.DEFAULT_DUBBO_PROPERTIES;
-
-    /* the .properties file under 'configFile' is global shared while .properties under this one is limited only to this application
-    */
-    private String appConfigFile;
-
-    /* If the Config Center product you use have some special parameters that is not covered by this class, you can add it to here.
-    For example, with XML:
-      <dubbo:config-center>
-           <dubbo:parameter key="{your key}" value="{your value}" />
-      </dubbo:config-center>
-     */
     private Map<String, String> parameters;
 
-    private Map<String, String> externalConfiguration;
-
-    private Map<String, String> appExternalConfiguration;
+    private static ConfigCenterConfig configCenterConfig = new ConfigCenterConfig();
 
     public ConfigCenterConfig() {
     }
+
+    public static ConfigCenterConfig getInstance(){
+        return configCenterConfig;
+    }
+    public AtomicBoolean getInited() {
+        return inited;
+    }
+
+    public void setInited(AtomicBoolean inited) {
+        this.inited = inited;
+    }
+
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Long getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Long timeout) {
+        this.timeout = timeout;
+    }
+
+    public Map<String, String> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(Map<String, String> parameters) {
+        this.parameters = parameters;
+    }
+
+
+
 
 
 }

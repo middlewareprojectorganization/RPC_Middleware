@@ -17,7 +17,6 @@
 package com.xxy.rpc.rpc;
 
 import com.xxy.rpc.common.URL;
-import com.xxy.rpc.rpc.protocol.AbstractInvoker;
 import com.xxy.rpc.common.Node;
 
 /**
@@ -41,8 +40,7 @@ public interface Invoker<T> extends Node {
      *
      * @param invocation
      * @return result
-     * @throws RpcException
      */
-    Result invoke(Invocation invocation) throws RpcException;
+    Result invoke(Invocation invocation) throws Exception;
 
 }
