@@ -20,6 +20,7 @@ package com.xxy.rpc.config.context;
 import com.xxy.rpc.common.context.FrameworkExt;
 import com.xxy.rpc.common.context.LifecycleAdapter;
 import com.xxy.rpc.common.utils.CollectionUtils;
+import com.xxy.rpc.common.utils.StringUtils;
 import com.xxy.rpc.config.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,11 +49,68 @@ public class ConfigManager extends LifecycleAdapter implements FrameworkExt {
 
     public static final String NAME = "config";
 
-    private final Map<String, Map<String, AbstractConfig>> configsCache = new ConcurrentHashMap<>();
+    private final Map<String, Map<String, AbstractConfig>> configsCache = newMap();
+    private static final String[] SUFFIXES = new String[]{"Config", "Bean", "ConfigBase"};
+
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
+
+    private static Map newMap() {
+        return new HashMap<>();
+    }
     public ConfigManager() {
     }
 
+    public void addConfig(AbstractConfig config) {
+        if (config == null) {
+            return;
+        }
+        Map<String, AbstractConfig> configsMap = configsCache.computeIfAbsent(getTagName(config.getClass()), type -> newMap());
+        addIfAbsent(config, configsMap);
+    }
+    static <C extends AbstractConfig> void addIfAbsent(C config, Map<String, C> configsMap)
+            throws IllegalStateException {
+
+        if (config == null || configsMap == null) {
+            return;
+        }
+        String key = getId(config);
+
+        C existedConfig = configsMap.get(key);
+
+        if (existedConfig != null && !config.equals(existedConfig)) {
+            if (logger.isWarnEnabled()) {
+                String type = config.getClass().getSimpleName();
+                logger.warn(String.format("Duplicate %s found, there already has one default %s or more than two %ss have the same id, " +
+                        "you can try to give each %s a different id : %s", type, type, type, type, config));
+            }
+        } else {
+            configsMap.put(key, config);
+        }
+    }
+
+    static <C extends AbstractConfig> String getId(C config) {
+        String id = config.getId();
+        return isNotEmpty(id) ? id : config.getClass().getSimpleName() + "#" + DEFAULT_KEY ;
+    }
+
+
+    public static String getTagName(Class<?> cls) {
+        String tag = cls.getSimpleName();
+        for (String suffix : SUFFIXES) {
+            if (tag.endsWith(suffix)) {
+                tag = tag.substring(0, tag.length() - suffix.length());
+                break;
+            }
+        }
+        return StringUtils.camelToSplitName(tag, "-");
+    }
+    public ConfigCenterConfig getConfigCenter(){
+        return getConfig(getTagName(ConfigCenterConfig.class));
+    }
+
+    protected <C extends AbstractConfig> C getConfig(String configType) {
+        return (C) configsCache.get(configType);
+    }
 }

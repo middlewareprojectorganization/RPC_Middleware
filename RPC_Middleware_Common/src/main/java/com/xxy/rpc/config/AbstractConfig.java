@@ -25,6 +25,7 @@ import com.xxy.rpc.common.constants.CommonConstants;
 import com.xxy.rpc.common.utils.*;
 import com.xxy.rpc.config.context.ConfigManager;
 
+import com.xxy.rpc.rpc.model.ApplicationModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +47,7 @@ public abstract class AbstractConfig implements Serializable {
 
     protected static final Logger logger = LoggerFactory.getLogger(AbstractConfig.class);
     private static final long serialVersionUID = 4267533505537413570L;
-
+    protected String id;
 
     public static void appendParameters(Map<String, String> parameters, Object config) {
         appendParameters(parameters, config, null);
@@ -55,7 +56,6 @@ public abstract class AbstractConfig implements Serializable {
     public static void appendParameters(Map<String, String> parameters, Object config, String prefix) {
 
     }
-
 
     public void refresh() {
 
@@ -66,5 +66,17 @@ public abstract class AbstractConfig implements Serializable {
         return "";
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @PostConstruct
+    public void addIntoConfigManager() {
+        ApplicationModel.getConfigManager().addConfig(this);
+    }
 
 }

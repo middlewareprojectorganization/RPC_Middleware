@@ -22,8 +22,7 @@ import com.xxy.rpc.common.logger.LoggerFactory;
 
 import com.xxy.rpc.common.utils.CollectionUtils;
 import com.xxy.rpc.config.*;
-
-
+import com.xxy.rpc.rpc.model.ApplicationModel;
 
 
 import java.util.*;
@@ -99,17 +98,25 @@ public class RpcBootstrap{
         if (!initialized.compareAndSet(false, true)) {
             return;
         }
+        //初始化环境
+        ApplicationModel.iniFrameworkExts();
+        //从配置中心拉取配置
+        startConfigCenter();
 
 
     }
 
+    private void startConfigCenter() {
+    }
 
 
     /**
      * Start the bootstrap
      */
     public RpcBootstrap start() {
-       return this;
+        //拉取配置
+        
+        return this;
     }
 
 
