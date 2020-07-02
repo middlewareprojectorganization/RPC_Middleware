@@ -15,6 +15,8 @@
  */
 package com.xxy.rpc.api.tansport;
 
+import com.xxy.rpc.api.DataListener;
+
 /**
  * @author Eric Zhao
  */
@@ -42,4 +44,6 @@ public interface CommandCenter {
      * @throws Exception if error occurs
      */
     void stop() throws Exception;
+
+    void registerListener(DataListener dataListener);
 }

@@ -32,4 +32,8 @@ public class ApplicationModel {
     public static ConfigManager getConfigManager() {
         return (ConfigManager) exts.get(ConfigManager.NAME);
     }
+
+    public static Environment getEnvironment() {
+        return (Environment) exts.get(Environment.NAME);
+    }
 }

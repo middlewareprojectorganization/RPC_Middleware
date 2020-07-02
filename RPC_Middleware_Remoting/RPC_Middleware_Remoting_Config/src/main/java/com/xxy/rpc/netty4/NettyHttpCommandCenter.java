@@ -16,9 +16,14 @@
 package com.xxy.rpc.netty4;
 
 
+import com.xxy.rpc.api.DataListener;
 import com.xxy.rpc.api.NamedThreadFactory;
 import com.xxy.rpc.api.tansport.CommandCenter;
+import com.xxy.rpc.api.tansport.CommandHandler;
 import com.xxy.rpc.api.tansport.HttpServer;
+import com.xxy.rpc.api.tansport.config.ConfigClientConfig;
+import com.xxy.rpc.api.tansport.support.ConfigFetchCommandHandler;
+import com.xxy.rpc.config.ConfigCenterConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +47,9 @@ public class NettyHttpCommandCenter implements CommandCenter {
 
     @Override
     public void beforeStart() throws Exception {
-
+        Map<String, CommandHandler> handlers = new HashMap<>();
+        handlers.put("config_change", new ConfigFetchCommandHandler());
+        server.registerCommands(handlers);
     }
 
     @Override
@@ -64,6 +71,12 @@ public class NettyHttpCommandCenter implements CommandCenter {
     public void stop() throws Exception {
         server.close();
         pool.shutdownNow();
+    }
+
+    @Override
+    public void registerListener(DataListener dataListener) {
+        ConfigFetchCommandHandler commandHandler = (ConfigFetchCommandHandler) server.getHandlerMap().get(ConfigClientConfig.CONFIG_CHANGE_HANDLER);
+        commandHandler.addDataListener(dataListener);
     }
 
 }

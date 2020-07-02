@@ -1,5 +1,6 @@
 package com.xxy.rpc.api.tansport;
 
+import com.xxy.rpc.api.DataListener;
 import com.xxy.rpc.api.response.CommandResponse;
 
 /**
@@ -17,11 +18,7 @@ public interface ConfigClient {
      */
     CommandResponse getConfig() throws Exception;
 
-    /**
-     * Default interval in milliseconds of the sender. It would take effect only when
-     * the heartbeat interval is not configured in Sentinel config property.
-     *
-     * @return default interval of the sender in milliseconds
-     */
-    long intervalMs();
+    void start() ;
+    void stop();
+    void addListener(DataListener dataListener);
 }

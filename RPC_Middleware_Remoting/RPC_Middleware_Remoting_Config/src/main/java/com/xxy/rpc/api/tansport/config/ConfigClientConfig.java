@@ -6,4 +6,5 @@ package com.xxy.rpc.api.tansport.config;
  */
 public class ConfigClientConfig {
     public static final String CONFIG_FETCH_PAHT = "/config/info/default/get";
+    public static final String CONFIG_CHANGE_HANDLER = "config_change";
 }

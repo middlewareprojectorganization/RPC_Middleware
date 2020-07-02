@@ -101,7 +101,17 @@ public class ConfigCenterConfig extends AbstractConfig {
     }
 
 
-
-
-
+    public URL toUrl() {
+        Map<String, String> map = new HashMap<>();
+        appendParameters(map, this);
+        if (StringUtils.isEmpty(address)) {
+            address = ANYHOST_VALUE;
+        }
+        map.put(PATH_KEY, ConfigCenterConfig.class.getSimpleName());
+        // use 'zookeeper' as the default configcenter.
+        if (StringUtils.isEmpty(map.get(PROTOCOL_KEY))) {
+            map.put(PROTOCOL_KEY, ZOOKEEPER_PROTOCOL);
+        }
+        return UrlUtils.parseURL(address, map);
+    }
 }

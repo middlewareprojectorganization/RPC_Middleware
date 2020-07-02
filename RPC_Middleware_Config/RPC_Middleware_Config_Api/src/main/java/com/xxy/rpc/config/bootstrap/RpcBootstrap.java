@@ -17,11 +17,16 @@
 package com.xxy.rpc.config.bootstrap;
 
 
+import com.xxy.rpc.common.config.Environment;
+import com.xxy.rpc.common.config.configcenter.DynamicConfiguration;
+import com.xxy.rpc.common.config.configcenter.DynamicConfigurationFactory;
 import com.xxy.rpc.common.logger.Logger;
 import com.xxy.rpc.common.logger.LoggerFactory;
 
 import com.xxy.rpc.common.utils.CollectionUtils;
 import com.xxy.rpc.config.*;
+import com.xxy.rpc.config.context.ConfigManager;
+import com.xxy.rpc.configcenter.ConfigCenterDynamicConfigurationFactory;
 import com.xxy.rpc.rpc.model.ApplicationModel;
 
 
@@ -43,26 +48,19 @@ import static java.util.Arrays.asList;
  */
 public class RpcBootstrap{
 
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private static RpcBootstrap instance;
-
-
-
-
-
 
     private AtomicBoolean initialized = new AtomicBoolean(false);
 
     private AtomicBoolean started = new AtomicBoolean(false);
 
-
-
     private List<Future<?>> asyncExportingFutures = new ArrayList<>();
 
     private List<CompletableFuture<Object>> asyncReferringFutures = new ArrayList<>();
-
+    private final ConfigManager configManager;
+    private final Environment environment;
     public static synchronized RpcBootstrap getInstance() {
         if (instance == null) {
             instance = new RpcBootstrap();
@@ -71,7 +69,8 @@ public class RpcBootstrap{
     }
 
     private RpcBootstrap() {
-
+        configManager = ApplicationModel.getConfigManager();
+        environment = ApplicationModel.getEnvironment();
     }
 
 
@@ -107,6 +106,16 @@ public class RpcBootstrap{
     }
 
     private void startConfigCenter() {
+        ConfigCenterConfig configCenter = configManager.getConfigCenter();
+        if(configCenter != null){
+            DynamicConfiguration dynamicConfiguration = prepareEnvironment(configCenter);
+        }
+    }
+
+    private DynamicConfiguration prepareEnvironment(ConfigCenterConfig configCenter) {
+        DynamicConfiguration dynamicConfiguration = new ConfigCenterDynamicConfigurationFactory().
+                getDynamicConfiguration(configCenter.toUrl());
+
     }
 
 

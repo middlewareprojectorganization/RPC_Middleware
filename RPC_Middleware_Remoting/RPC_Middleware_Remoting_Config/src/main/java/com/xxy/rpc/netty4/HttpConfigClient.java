@@ -1,5 +1,6 @@
 package com.xxy.rpc.netty4;
 
+import com.xxy.rpc.api.DataListener;
 import com.xxy.rpc.api.response.CommandResponse;
 import com.xxy.rpc.api.tansport.ConfigClient;
 import com.xxy.rpc.api.tansport.config.ConfigClientConfig;
@@ -24,7 +25,6 @@ public class HttpConfigClient implements ConfigClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigClient.class);
     private final CloseableHttpClient client;
 
-
     private static final int OK_STATUS = 200;
 
     private final int timeoutMs = 3000;
@@ -34,17 +34,19 @@ public class HttpConfigClient implements ConfigClient {
             .setConnectTimeout(timeoutMs)
             .setSocketTimeout(timeoutMs)
             .build();
-
+    private final NettyHttpCommandCenter commandCenter;
     private final String consoleHost;
     private final int consolePort;
     private final URL url;
 
-    public HttpConfigClient(URL url) {
+    public HttpConfigClient(URL url) throws Exception{
         this.consoleHost = url.getHost();
         this.consolePort = url.getPort();
         this.url = url;
         this.client = HttpClients.createDefault();
+        commandCenter = new NettyHttpCommandCenter();
     }
+
     @Override
     public CommandResponse getConfig() throws Exception {
         if (StringUtils.isEmpty(consoleHost)) {
@@ -56,7 +58,6 @@ public class HttpConfigClient implements ConfigClient {
                 .setParameter("app", url.getParameter("app"));
         HttpGet request = new HttpGet(uriBuilder.build());
         request.setConfig(requestConfig);
-        // Send heartbeat request.
         CloseableHttpResponse response = client.execute(request);
         response.close();
         int statusCode = response.getStatusLine().getStatusCode();
@@ -71,9 +72,25 @@ public class HttpConfigClient implements ConfigClient {
     }
 
     @Override
-    public long intervalMs() {
-        return 5000;
+    public void start(){
+        try {
+            commandCenter.beforeStart();
+            commandCenter.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+    @Override
+    public void stop() {
+
+    }
+
+    @Override
+    public void addListener(DataListener dataListener) {
+        commandCenter.registerListener(dataListener);
+    }
+
 
     private boolean clientErrorCode(int code) {
         return code > 399 && code < 500;
