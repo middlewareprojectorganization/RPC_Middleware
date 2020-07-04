@@ -19,13 +19,7 @@ package com.xxy.rpc.rpc;
 import com.xxy.rpc.common.URL;
 import com.xxy.rpc.common.Node;
 
-/**
- * Invoker. (API/SPI, Prototype, ThreadSafe)
- *
- * @see Protocol#refer(Class, URL)
- * @see InvokerListener
- * @see AbstractInvoker
- */
+
 public interface Invoker<T> extends Node {
 
     /**

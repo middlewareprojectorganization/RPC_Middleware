@@ -19,13 +19,6 @@ package com.xxy.rpc.rpc;
 import java.util.Map;
 import java.util.stream.Stream;
 
-/**
- * Invocation. (API, Prototype, NonThreadSafe)
- *
- * @serial Don't change the class name and package name.
- * @see Invoker#invoke(Invocation)
- * @see RpcInvocation
- */
 public interface Invocation {
 
     String getTargetServiceUniqueName();

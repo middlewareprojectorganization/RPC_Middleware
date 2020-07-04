@@ -39,7 +39,7 @@ public class HttpConfigClient implements ConfigClient {
     private final int consolePort;
     private final URL url;
 
-    public HttpConfigClient(URL url) throws Exception{
+    public HttpConfigClient(URL url){
         this.consoleHost = url.getHost();
         this.consolePort = url.getPort();
         this.url = url;

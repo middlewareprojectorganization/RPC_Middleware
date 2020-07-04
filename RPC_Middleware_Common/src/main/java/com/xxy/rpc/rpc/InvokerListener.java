@@ -25,13 +25,7 @@ import com.xxy.rpc.common.URL;
 
 public interface InvokerListener {
 
-    /**
-     * The invoker referred
-     *
-     * @param invoker
-     * @throws RpcException
-     * @see Protocol#refer(Class, URL)
-     */
+
     void referred(Invoker<?> invoker) throws Exception;
 
     /**

@@ -17,6 +17,7 @@
 package com.xxy.rpc.config.bootstrap;
 
 
+import com.xxy.rpc.common.config.ConfigurationUtils;
 import com.xxy.rpc.common.config.Environment;
 import com.xxy.rpc.common.config.configcenter.DynamicConfiguration;
 import com.xxy.rpc.common.config.configcenter.DynamicConfigurationFactory;
@@ -30,11 +31,13 @@ import com.xxy.rpc.configcenter.ConfigCenterDynamicConfigurationFactory;
 import com.xxy.rpc.rpc.model.ApplicationModel;
 
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static com.xxy.rpc.common.config.ConfigurationUtils.parseProperties;
 import static java.util.Arrays.asList;
 
 /**
@@ -57,6 +60,7 @@ public class RpcBootstrap{
     private AtomicBoolean started = new AtomicBoolean(false);
 
     private List<Future<?>> asyncExportingFutures = new ArrayList<>();
+    private Set<DynamicConfiguration> configurations = new HashSet<>();
 
     private List<CompletableFuture<Object>> asyncReferringFutures = new ArrayList<>();
     private final ConfigManager configManager;
@@ -105,16 +109,28 @@ public class RpcBootstrap{
 
     }
 
+    private void loadRemoteConfig() {
+
+    }
+
     private void startConfigCenter() {
         ConfigCenterConfig configCenter = configManager.getConfigCenter();
         if(configCenter != null){
             DynamicConfiguration dynamicConfiguration = prepareEnvironment(configCenter);
+            configurations.add(dynamicConfiguration);
         }
     }
 
     private DynamicConfiguration prepareEnvironment(ConfigCenterConfig configCenter) {
         DynamicConfiguration dynamicConfiguration = new ConfigCenterDynamicConfigurationFactory().
                 getDynamicConfiguration(configCenter.toUrl());
+        String content = dynamicConfiguration.getConfig();
+        try {
+            environment.updateAppExternalConfigurationMap(parseProperties(content));
+        }catch (IOException e){
+            throw new IllegalStateException("Failed to parse configurations from Config Center.", e);
+        }
+        return dynamicConfiguration;
 
     }
 

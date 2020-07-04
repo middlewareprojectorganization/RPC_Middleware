@@ -94,8 +94,8 @@ public interface DynamicConfiguration extends Configuration, AutoCloseable {
      * @param group the group where the key belongs to
      * @return target configuration mapped to the given key and the given group
      */
-    default String getConfig(String key, String group) {
-        return getConfig(key, group, getDefaultTimeout());
+    default String getConfig() {
+        return getConfig();
     }
 
     /**
