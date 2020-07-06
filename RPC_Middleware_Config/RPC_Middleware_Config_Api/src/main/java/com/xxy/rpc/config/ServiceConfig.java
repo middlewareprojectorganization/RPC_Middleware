@@ -24,29 +24,31 @@ import com.xxy.rpc.common.utils.*;
 import com.xxy.rpc.config.annotation.RpcService;
 import com.xxy.rpc.config.bootstrap.RpcBootstrap;
 
-import com.xxy.rpc.event.Event;
 
 import com.xxy.rpc.rpc.*;
 
-import javafx.event.EventDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Method;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import static com.xxy.rpc.api.Constants.BIND_IP_KEY;
+import static com.xxy.rpc.api.Constants.BIND_PORT_KEY;
 import static com.xxy.rpc.common.constants.CommonConstants.*;
-import static com.xxy.rpc.config.Constants.SCOPE_NONE;
-import static com.xxy.rpc.rpc.Constants.SCOPE_KEY;
+import static com.xxy.rpc.common.constants.RegistryConstants.DYNAMIC_KEY;
+import static com.xxy.rpc.common.utils.NetUtils.*;
+import static com.xxy.rpc.config.Constants.*;
+import static com.xxy.rpc.config.Constants.REGISTER_KEY;
+import static com.xxy.rpc.rpc.Constants.*;
 
 
 public class ServiceConfig<T> extends ServiceConfigBase<T> {
 
     public static final Logger logger = LoggerFactory.getLogger(ServiceConfig.class);
-
+    private static final Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtension();
     /**
      * A random port cache, the different protocols who has no port specified have different random port
      */
@@ -84,6 +86,7 @@ public class ServiceConfig<T> extends ServiceConfigBase<T> {
     public ServiceConfig() throws Exception {
 
     }
+
     public ServiceConfig(RpcService service) {
         super(service);
     }
@@ -162,19 +165,13 @@ public class ServiceConfig<T> extends ServiceConfigBase<T> {
         }
 
 
-
-            String[] methods = Wrapper.getWrapper(interfaceClass).getMethodNames();
-            if (methods.length == 0) {
-                logger.warn("No method found in service interface " + interfaceClass.getName());
-                map.put(METHODS_KEY, ANY_VALUE);
-            } else {
-                map.put(METHODS_KEY, StringUtils.join(new HashSet<String>(Arrays.asList(methods)), ","));
-            }
+        String[] methods = Wrapper.getWrapper(interfaceClass).getMethodNames();
+        if (methods.length == 0) {
+            logger.warn("No method found in service interface " + interfaceClass.getName());
+            map.put(METHODS_KEY, ANY_VALUE);
+        } else {
+            map.put(METHODS_KEY, StringUtils.join(new HashSet<String>(Arrays.asList(methods)), ","));
         }
-
-        /**
-         * Here the token value configured by the provider is used to assign the value to ServiceConfig#token
-         */
 
         //init serviceMetadata attachments
         serviceMetadata.getAttachments().putAll(map);
@@ -183,7 +180,6 @@ public class ServiceConfig<T> extends ServiceConfigBase<T> {
         String host = findConfigedHosts(protocolConfig, registryURLs, map);
         Integer port = findConfigedPorts(protocolConfig, name, map);
         URL url = new URL(name, host, port, getContextPath(protocolConfig).map(p -> p + "/" + path).orElse(path), map);
-
 
 
         String scope = url.getParameter(SCOPE_KEY);
@@ -198,10 +194,8 @@ public class ServiceConfig<T> extends ServiceConfigBase<T> {
                             continue;
                         }
                         url = url.addParameterIfAbsent(DYNAMIC_KEY, registryURL.getParameter(DYNAMIC_KEY));
-                        URL monitorUrl = ConfigValidationUtils.loadMonitor(this, registryURL);
-                        if (monitorUrl != null) {
-                            url = url.addParameterAndEncoded(MONITOR_KEY, monitorUrl.toFullString());
-                        }
+
+
                         if (logger.isInfoEnabled()) {
                             if (url.getParameter(REGISTER_KEY, true)) {
                                 logger.info("Register dubbo service " + interfaceClass.getName() + " url " + url + " to registry " + registryURL);
@@ -219,7 +213,7 @@ public class ServiceConfig<T> extends ServiceConfigBase<T> {
                         Invoker<?> invoker = PROXY_FACTORY.getInvoker(ref, (Class) interfaceClass, registryURL.addParameterAndEncoded(EXPORT_KEY, url.toFullString()));
                         DelegateProviderMetaDataInvoker wrapperInvoker = new DelegateProviderMetaDataInvoker(invoker, this);
 
-                        Exporter<?> exporter = PROTOCOL.export(wrapperInvoker);
+                        Exporter<?> exporter = protocol.export(wrapperInvoker);
                         exporters.add(exporter);
                     }
                 } else {
@@ -236,6 +230,150 @@ public class ServiceConfig<T> extends ServiceConfigBase<T> {
             }
         }
         this.urls.add(url);
+    }
+
+    private Integer parsePort(String configPort) {
+        Integer port = null;
+        if (configPort != null && configPort.length() > 0) {
+            try {
+                Integer intPort = Integer.parseInt(configPort);
+                if (isInvalidPort(intPort)) {
+                    throw new IllegalArgumentException("Specified invalid port from env value:" + configPort);
+                }
+                port = intPort;
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Specified invalid port from env value:" + configPort);
+            }
+        }
+        return port;
+    }
+
+    private Integer getRandomPort(String protocol) {
+        protocol = protocol.toLowerCase();
+        return RANDOM_PORT_MAP.getOrDefault(protocol, Integer.MIN_VALUE);
+    }
+
+    private void putRandomPort(String protocol, Integer port) {
+        protocol = protocol.toLowerCase();
+        if (!RANDOM_PORT_MAP.containsKey(protocol)) {
+            RANDOM_PORT_MAP.put(protocol, port);
+            logger.warn("Use random available port(" + port + ") for protocol " + protocol);
+        }
+    }
+
+    private Integer findConfigedPorts(ProtocolConfig protocolConfig,
+                                      String name,
+                                      Map<String, String> map) {
+        Integer portToBind = null;
+
+        // parse bind port from environment
+        String port = getValueFromConfig(protocolConfig, DUBBO_PORT_TO_BIND);
+        portToBind = parsePort(port);
+
+        // if there's no bind port found from environment, keep looking up.
+        if (portToBind == null) {
+            portToBind = protocolConfig.getPort();
+            if (provider != null && (portToBind == null || portToBind == 0)) {
+                portToBind = provider.getPort();
+            }
+            //    final int defaultPort = ExtensionLoader.getExtensionLoader(Protocol.class).getExtension(name).getDefaultPort();
+            final int defaultPort = 20880;
+            if (portToBind == null || portToBind == 0) {
+                portToBind = defaultPort;
+            }
+            if (portToBind == null || portToBind <= 0) {
+                portToBind = getRandomPort(name);
+                if (portToBind == null || portToBind < 0) {
+                    portToBind = getAvailablePort(defaultPort);
+                    putRandomPort(name, portToBind);
+                }
+            }
+        }
+
+        // save bind port, used as url's key later
+        map.put(BIND_PORT_KEY, String.valueOf(portToBind));
+
+        // registry port, not used as bind port by default
+        String portToRegistryStr = getValueFromConfig(protocolConfig, DUBBO_PORT_TO_REGISTRY);
+        Integer portToRegistry = parsePort(portToRegistryStr);
+        if (portToRegistry == null) {
+            portToRegistry = portToBind;
+        }
+
+        return portToRegistry;
+    }
+
+    private String getValueFromConfig(ProtocolConfig protocolConfig, String key) {
+        String protocolPrefix = protocolConfig.getName().toUpperCase() + "_";
+        String port = ConfigUtils.getSystemProperty(protocolPrefix + key);
+        if (StringUtils.isEmpty(port)) {
+            port = ConfigUtils.getSystemProperty(key);
+        }
+        return port;
+    }
+
+    private String findConfigedHosts(ProtocolConfig protocolConfig,
+                                     List<URL> registryURLs,
+                                     Map<String, String> map) {
+        boolean anyhost = false;
+
+        String hostToBind = getValueFromConfig(protocolConfig, DUBBO_IP_TO_BIND);
+        if (hostToBind != null && hostToBind.length() > 0 && isInvalidLocalHost(hostToBind)) {
+            throw new IllegalArgumentException("Specified invalid bind ip from property:" + DUBBO_IP_TO_BIND + ", value:" + hostToBind);
+        }
+
+        // if bind ip is not found in environment, keep looking up
+        if (StringUtils.isEmpty(hostToBind)) {
+            hostToBind = protocolConfig.getHost();
+            if (provider != null && StringUtils.isEmpty(hostToBind)) {
+                hostToBind = provider.getHost();
+            }
+            if (isInvalidLocalHost(hostToBind)) {
+                anyhost = true;
+                try {
+                    logger.info("No valid ip found from environment, try to find valid host from DNS.");
+                    hostToBind = InetAddress.getLocalHost().getHostAddress();
+                } catch (UnknownHostException e) {
+                    logger.warn(e.getMessage(), e);
+                }
+                if (isInvalidLocalHost(hostToBind)) {
+                    if (CollectionUtils.isNotEmpty(registryURLs)) {
+                        for (URL registryURL : registryURLs) {
+                            if (MULTICAST.equalsIgnoreCase(registryURL.getParameter("registry"))) {
+                                // skip multicast registry since we cannot connect to it via Socket
+                                continue;
+                            }
+                            try (Socket socket = new Socket()) {
+                                SocketAddress addr = new InetSocketAddress(registryURL.getHost(), registryURL.getPort());
+                                socket.connect(addr, 1000);
+                                hostToBind = socket.getLocalAddress().getHostAddress();
+                                break;
+                            } catch (Exception e) {
+                                logger.warn(e.getMessage(), e);
+                            }
+                        }
+                    }
+                    if (isInvalidLocalHost(hostToBind)) {
+                        hostToBind = getLocalHost();
+                    }
+                }
+            }
+        }
+
+        map.put(BIND_IP_KEY, hostToBind);
+
+        // registry ip is not used for bind ip by default
+        String hostToRegistry = getValueFromConfig(protocolConfig, DUBBO_IP_TO_REGISTRY);
+        if (hostToRegistry != null && hostToRegistry.length() > 0 && isInvalidLocalHost(hostToRegistry)) {
+            throw new IllegalArgumentException("Specified invalid registry ip from property:" + DUBBO_IP_TO_REGISTRY + ", value:" + hostToRegistry);
+        } else if (StringUtils.isEmpty(hostToRegistry)) {
+            // bind ip is used as registry ip by default
+            hostToRegistry = hostToBind;
+        }
+
+        map.put(ANYHOST_KEY, String.valueOf(anyhost));
+
+        return hostToRegistry;
     }
 
     public void setBootstrap(RpcBootstrap bootstrap) {

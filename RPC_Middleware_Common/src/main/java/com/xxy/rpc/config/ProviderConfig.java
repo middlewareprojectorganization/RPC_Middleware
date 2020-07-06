@@ -152,4 +152,12 @@ public class ProviderConfig extends AbstractServiceConfig {
     public String getContextpath() {
         return contextpath;
     }
+    @Parameter(excluded = true)
+    public String getHost() {
+        return host;
+    }
+    @Parameter(excluded = true)
+    public Integer getPort() {
+        return port;
+    }
 }
