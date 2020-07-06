@@ -17,11 +17,13 @@
 package com.xxy.rpc.common.config.configcenter;
 
 
+import com.xxy.rpc.rpc.model.ApplicationModel;
+import com.xxy.rpc.common.URL;
 import com.xxy.rpc.common.config.Configuration;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
-
 
 
 /**
@@ -36,7 +38,7 @@ import java.util.SortedSet;
  * <li>{@link #getConfig(String, String, long)}, get the specified config</li>
  * </ol>
  *
- * @see
+ * @see AbstractDynamicConfiguration
  */
 public interface DynamicConfiguration extends Configuration, AutoCloseable {
 
@@ -92,8 +94,8 @@ public interface DynamicConfiguration extends Configuration, AutoCloseable {
      * @param group the group where the key belongs to
      * @return target configuration mapped to the given key and the given group
      */
-    default String getConfig(String key, String group) {
-        return getConfig(key, group, getDefaultTimeout());
+    default String getConfig() {
+        return getConfig();
     }
 
     /**
@@ -195,16 +197,15 @@ public interface DynamicConfiguration extends Configuration, AutoCloseable {
         throw new UnsupportedOperationException();
     }
 
+
+
+
     /**
-     * Find DynamicConfiguration instance
+     * The format is '{interfaceName}:[version]:[group]'
      *
-     * @return DynamicConfiguration instance
+     * @return
      */
-    static DynamicConfiguration getDynamicConfiguration() {
-        return null;
+    static String getRuleKey(URL url) {
+        return url.getColonSeparatedKey();
     }
-
-
-
-
 }

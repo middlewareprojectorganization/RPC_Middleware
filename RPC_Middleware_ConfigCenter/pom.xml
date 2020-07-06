@@ -30,7 +30,7 @@
         </dependency>
         <dependency>
             <groupId>com.xxy.rpc</groupId>
-            <artifactId>RPC_Middleware_Common</artifactId>
+            <artifactId>RPC_Middleware_Remoting_Config</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

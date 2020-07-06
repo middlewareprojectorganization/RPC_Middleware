@@ -117,7 +117,7 @@ public class ClassUtils {
      * reference as well).
      *
      * @return the default ClassLoader (never <code>null</code>)
-     * @see Thread#getContextClassLoader()
+     * @see java.lang.Thread#getContextClassLoader()
      */
     public static ClassLoader getClassLoader() {
         return getClassLoader(ClassUtils.class);

@@ -18,7 +18,6 @@ package com.xxy.rpc.common.config.configcenter;
 
 import com.xxy.rpc.common.URL;
 
-
 /**
  * The factory interface to create the instance of {@link DynamicConfiguration}
  */
@@ -26,15 +25,4 @@ public interface DynamicConfigurationFactory {
 
     DynamicConfiguration getDynamicConfiguration(URL url);
 
-    /**
-     * Get an instance of {@link DynamicConfigurationFactory} by the specified name. If not found, take the default
-     * extension of {@link DynamicConfigurationFactory}
-     *
-     * @param name the name of extension of {@link DynamicConfigurationFactory}
-     * @return non-null
-     * @see 2.7.4
-     */
-    static DynamicConfigurationFactory getDynamicConfigurationFactory(String name) {
-        return null;
-    }
 }
