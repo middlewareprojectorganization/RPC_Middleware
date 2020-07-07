@@ -106,7 +106,6 @@ public class RpcBootstrap{
         //从配置中心拉取配置
         startConfigCenter();
 
-
     }
 
     private void loadRemoteConfig() {
