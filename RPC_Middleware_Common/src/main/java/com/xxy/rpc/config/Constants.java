@@ -23,7 +23,7 @@ package com.xxy.rpc.config;
 public interface Constants {
 
     String STATUS_KEY = "status";
-
+    String SUBSCRIBE_KEY = "subscribe";
     String CONTEXTPATH_KEY = "contextpath";
 
     String LISTENER_KEY = "listener";

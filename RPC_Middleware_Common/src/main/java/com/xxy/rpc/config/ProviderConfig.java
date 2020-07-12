@@ -17,6 +17,9 @@
 package com.xxy.rpc.config;
 
 
+
+import com.xxy.rpc.common.config.Parameter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -146,5 +149,18 @@ public class ProviderConfig extends AbstractServiceConfig {
      * Whether to use the default protocol
      */
     private Boolean isDefault;
+
+    @Parameter(excluded = true)
+    public String getContextpath() {
+        return contextpath;
+    }
+    @Parameter(excluded = true)
+    public String getHost() {
+        return host;
+    }
+    @Parameter(excluded = true)
+    public Integer getPort() {
+        return port;
+    }
 
 }

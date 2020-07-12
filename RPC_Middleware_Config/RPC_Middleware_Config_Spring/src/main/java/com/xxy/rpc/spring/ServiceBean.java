@@ -50,11 +50,10 @@ public class ServiceBean<T> extends ServiceConfig<T> implements InitializingBean
 
     private ApplicationEventPublisher applicationEventPublisher;
 
-    public ServiceBean() {
+    public ServiceBean() throws Exception {
         super();
         this.service = null;
     }
-
     public ServiceBean(RpcService service) {
         this.service = service;
     }

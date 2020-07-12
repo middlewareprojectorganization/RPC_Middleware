@@ -48,7 +48,7 @@ public abstract class AbstractConfig implements Serializable {
     protected static final Logger logger = LoggerFactory.getLogger(AbstractConfig.class);
     private static final long serialVersionUID = 4267533505537413570L;
     protected String id;
-
+    protected String prefix;
     public static void appendParameters(Map<String, String> parameters, Object config) {
         appendParameters(parameters, config, null);
     }
@@ -66,8 +66,17 @@ public abstract class AbstractConfig implements Serializable {
         return "";
     }
 
+
+    public void updateIdIfAbsent(String value) {
+        if (StringUtils.isNotEmpty(value) && StringUtils.isEmpty(id)) {
+            this.id = value;
+        }
+    }
     public String getId() {
         return id;
+    }
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
     public void setId(String id) {

@@ -17,9 +17,13 @@
 package com.xxy.rpc.config;
 
 import com.xxy.rpc.common.URL;
+
+import com.xxy.rpc.common.config.MethodConfig;
 import com.xxy.rpc.common.utils.CollectionUtils;
 import com.xxy.rpc.common.utils.StringUtils;
 import com.xxy.rpc.config.annotation.RpcService;
+import com.xxy.rpc.rpc.model.ServiceMetadata;
+
 
 
 import java.util.ArrayList;
@@ -44,6 +48,8 @@ public abstract class ServiceConfigBase<T> extends AbstractServiceConfig {
      * The interface name of the exported service
      */
     protected String interfaceName;
+
+    protected ServiceMetadata  serviceMetadata;
 
     /**
      * The interface class of the exported service
@@ -75,7 +81,22 @@ public abstract class ServiceConfigBase<T> extends AbstractServiceConfig {
      */
     protected volatile String generic;
 
+    private List<MethodConfig> methods;
 
+    public ServiceConfigBase() {
+        serviceMetadata = new ServiceMetadata();
+        serviceMetadata.addAttribute("ORIGIN_CONFIG", this);
+    }
+    public ServiceConfigBase(RpcService service) {
+        serviceMetadata = new ServiceMetadata();
+        serviceMetadata.addAttribute("ORIGIN_CONFIG", this);
+        appendAnnotation(RpcService.class, service);
+        setMethods(MethodConfig.constructMethodConfig(service.methods()));
+    }
+    @SuppressWarnings("unchecked")
+    public void setMethods(List<? extends MethodConfig> methods) {
+        this.methods = (List<MethodConfig>) methods;
+    }
 
     public abstract void export();
 
@@ -87,6 +108,14 @@ public abstract class ServiceConfigBase<T> extends AbstractServiceConfig {
 
     public String getPath() {
         return path;
+    }
+
+    public Optional<String> getContextPath(ProtocolConfig protocolConfig) {
+        String contextPath = protocolConfig.getContextpath();
+        if (StringUtils.isEmpty(contextPath) && provider != null) {
+            contextPath = provider.getContextpath();
+        }
+        return Optional.ofNullable(contextPath);
     }
 
     public void setPath(String path) {
@@ -140,4 +169,6 @@ public abstract class ServiceConfigBase<T> extends AbstractServiceConfig {
     public void setRef(T ref) {
         this.ref = ref;
     }
+
 }
+

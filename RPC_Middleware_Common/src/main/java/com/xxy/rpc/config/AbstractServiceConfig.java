@@ -16,7 +16,13 @@
  */
 package com.xxy.rpc.config;
 
+
 import com.xxy.rpc.common.utils.CollectionUtils;
+
+import com.xxy.rpc.common.URL;
+import com.xxy.rpc.common.config.AbstractInterfaceConfig;
+import com.xxy.rpc.common.utils.CollectionUtils;
+import com.xxy.rpc.common.utils.ConfigValidationUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +36,7 @@ import static com.xxy.rpc.common.constants.CommonConstants.SERVICE_FILTER_KEY;
  *
  * @export
  */
-public abstract class AbstractServiceConfig extends AbstractConfig {
+public abstract class AbstractServiceConfig extends AbstractInterfaceConfig {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,7 +44,7 @@ public abstract class AbstractServiceConfig extends AbstractConfig {
      * The service version
      */
     protected String version;
-
+    protected List<ProtocolConfig> protocols;
     /**
      * The service group
      */
@@ -228,4 +234,6 @@ public abstract class AbstractServiceConfig extends AbstractConfig {
     public void setSerialization(String serialization) {
         this.serialization = serialization;
     }
+
+
 }

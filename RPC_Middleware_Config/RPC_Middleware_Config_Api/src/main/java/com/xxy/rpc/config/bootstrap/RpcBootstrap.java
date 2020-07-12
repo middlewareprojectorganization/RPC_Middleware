@@ -34,6 +34,7 @@ import com.xxy.rpc.rpc.model.ApplicationModel;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -106,7 +107,22 @@ public class RpcBootstrap{
         //从配置中心拉取配置
         startConfigCenter();
 
+        //服务导出 服务注册
+        exportServices();
 
+    }
+
+    private void exportServices() {
+        configManager.getServices().forEach(sc -> {
+            // TODO, compatible with ServiceConfig.export()
+            ServiceConfig serviceConfig = (ServiceConfig) sc;
+            serviceConfig.setBootstrap(this);
+
+
+                sc.export();
+                //exportedServices.add(sc);
+
+        });
     }
 
     private void loadRemoteConfig() {
@@ -140,7 +156,7 @@ public class RpcBootstrap{
      */
     public RpcBootstrap start() {
         //拉取配置
-        
+
         return this;
     }
 

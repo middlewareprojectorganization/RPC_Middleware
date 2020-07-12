@@ -95,7 +95,57 @@ public class ConfigManager extends LifecycleAdapter implements FrameworkExt {
         return isNotEmpty(id) ? id : config.getClass().getSimpleName() + "#" + DEFAULT_KEY ;
     }
 
+    public Optional<ApplicationConfig> getApplication() {
+        return ofNullable(getConfig(getTagName(ApplicationConfig.class)));
+    }
+    public void setApplication(ApplicationConfig application) {
+        addConfig(application, true);
+    }
 
+    private void addConfig(ApplicationConfig config, boolean unique) {
+        if (config == null) {
+            return;
+        }
+        write(() -> {
+            Map<String, AbstractConfig> configsMap = configsCache.computeIfAbsent(getTagName(config.getClass()), type -> newMap());
+            addIfAbsent(config, configsMap, unique);
+        });
+    }
+
+    private void addIfAbsent(ApplicationConfig config, Map<String, AbstractConfig> configsMap, boolean unique) {
+    }
+    public ApplicationConfig getApplicationOrElseThrow() {
+        return getApplication().orElseThrow(() -> new IllegalStateException("There's no ApplicationConfig specified."));
+    }
+    private void write(Runnable runnable) {
+        write(() -> {
+            runnable.run();
+            return null;
+        });
+    }
+
+    public Collection<ServiceConfigBase> getServices() {
+        return getConfigs(getTagName(ServiceConfigBase.class));
+    }
+    protected <C extends AbstractConfig> Collection<C> getConfigs(String configType) {
+        return (Collection<C>) read(() -> getConfigsMap(configType).values());
+    }
+    private <V> V read(Callable<V> callable) {
+        Lock readLock = lock.readLock();
+        V value = null;
+        try {
+            readLock.lock();
+            value = callable.call();
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        } finally {
+            readLock.unlock();
+        }
+        return value;
+    }
+    protected <C extends AbstractConfig> Map<String, C> getConfigsMap(String configType) {
+        return (Map<String, C>) read(() -> configsCache.getOrDefault(configType, emptyMap()));
+    }
     public static String getTagName(Class<?> cls) {
         String tag = cls.getSimpleName();
         for (String suffix : SUFFIXES) {
