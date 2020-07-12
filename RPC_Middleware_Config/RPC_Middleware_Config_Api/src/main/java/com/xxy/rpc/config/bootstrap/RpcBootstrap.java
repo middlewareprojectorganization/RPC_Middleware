@@ -107,8 +107,10 @@ public class RpcBootstrap{
         //从配置中心拉取配置
         startConfigCenter();
 
+
         //服务导出 服务注册
         exportServices();
+
 
     }
 

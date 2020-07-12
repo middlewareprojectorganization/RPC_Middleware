@@ -16,15 +16,8 @@
  */
 package com.xxy.rpc.rpc;
 
-import com.xxy.rpc.rpc.protocol.AbstractExporter;
 
-/**
- * Exporter. (API/SPI, Prototype, ThreadSafe)
- *
- * @see Protocol#export(Invoker)
- * @see ExporterListener
- * @see AbstractExporter
- */
+
 public interface Exporter<T> {
 
     /**
