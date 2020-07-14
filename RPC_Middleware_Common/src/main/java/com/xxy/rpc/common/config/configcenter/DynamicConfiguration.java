@@ -86,14 +86,8 @@ public interface DynamicConfiguration extends Configuration, AutoCloseable {
      */
     void removeListener(String key, String group, ConfigurationListener listener);
 
-    /**
-     * Get the configuration mapped to the given key and the given group with {@link #getDefaultTimeout() the default
-     * timeout}
-     *
-     * @param key   the key to represent a configuration
-     * @param group the group where the key belongs to
-     * @return target configuration mapped to the given key and the given group
-     */
+
+
     default String getConfig() {
         return getConfig();
     }

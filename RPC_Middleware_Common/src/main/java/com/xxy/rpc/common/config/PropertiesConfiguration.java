@@ -59,8 +59,4 @@ public class PropertiesConfiguration extends AbstractPrefixConfiguration {
         this(null, null);
     }
 
-    @Override
-    public Object getInternalProperty(String key) {
-        return ConfigUtils.getProperty(key);
-    }
 }

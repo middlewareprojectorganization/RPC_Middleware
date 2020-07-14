@@ -35,10 +35,6 @@ public class InmemoryConfiguration extends AbstractPrefixConfiguration {
         this(null, null);
     }
 
-    @Override
-    public Object getInternalProperty(String key) {
-        return store.get(key);
-    }
 
     /**
      * Add one property into the store, the previous value will be replaced if the key exists

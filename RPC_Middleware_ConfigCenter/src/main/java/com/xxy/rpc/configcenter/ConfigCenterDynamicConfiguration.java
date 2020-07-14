@@ -1,13 +1,14 @@
 package com.xxy.rpc.configcenter;
 
-import com.xxy.rpc.api.response.CommandResponse;
-import com.xxy.rpc.api.tansport.ConfigClient;
-import com.xxy.rpc.common.URL;
+import com.xxy.rpc.common.*;
 import com.xxy.rpc.common.config.configcenter.ConfigurationListener;
 import com.xxy.rpc.common.config.configcenter.DynamicConfiguration;
 import com.xxy.rpc.common.logger.Logger;
 import com.xxy.rpc.common.logger.LoggerFactory;
-import com.xxy.rpc.netty4.HttpConfigClient;
+import com.xxy.rpc.impl.ConfigFetchClientImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: XXY
@@ -15,23 +16,24 @@ import com.xxy.rpc.netty4.HttpConfigClient;
  */
 public class ConfigCenterDynamicConfiguration implements DynamicConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigCenterDynamicConfiguration.class);
-    private ConfigClient configClient;
+    private ConfigFetchClient configClient;
+    private List<ConfigurationListener> listeners = new ArrayList<>();
     public ConfigCenterDynamicConfiguration(URL url){
-        configClient = new HttpConfigClient(url);
+        configClient = new ConfigFetchClientImpl(url);
     }
     @Override
     public void addListener(String key, String group, ConfigurationListener listener) {
-
+        listeners.add(listener);
     }
 
     @Override
     public void removeListener(String key, String group, ConfigurationListener listener) {
-
+        listeners.remove(listener);
     }
 
     @Override
     public String getConfig(String key, String group, long timeout) throws IllegalStateException {
-        CommandResponse config;
+        CommonResponse config;
         try {
             config = configClient.getConfig();
         }catch (Exception e){
@@ -41,8 +43,13 @@ public class ConfigCenterDynamicConfiguration implements DynamicConfiguration {
         return config.getResult().toString();
     }
 
-    @Override
-    public Object getInternalProperty(String key) {
-        return null;
+    public final class ConfigListener implements DataListener {
+
+        @Override
+        public void dataChanged(DataEventType dataEventType) {
+            listeners.forEach(listener -> listener.process(null));
+        }
     }
+
+
 }

@@ -107,29 +107,8 @@ public class Environment extends LifecycleAdapter implements FrameworkExt {
         this.appExternalConfigurationMap.putAll(externalMap);
     }
 
-    /**
-     * Create new instance for each call, since it will be called only at startup, I think there's no big deal of the potential cost.
-     * Otherwise, if use cache, we should make sure each Config has a unique id which is difficult to guarantee because is on the user's side,
-     * especially when it comes to ServiceConfig and ReferenceConfig.
-     *
-     * @param prefix
-     * @param id
-     * @return
-     */
-    public CompositeConfiguration getConfiguration(String prefix, String id) {
-        CompositeConfiguration compositeConfiguration = new CompositeConfiguration();
-        // Config center has the highest priority
-        compositeConfiguration.addConfiguration(this.getSystemConfig(prefix, id));
-        compositeConfiguration.addConfiguration(this.getEnvironmentConfig(prefix, id));
-        compositeConfiguration.addConfiguration(this.getAppExternalConfig(prefix, id));
-        compositeConfiguration.addConfiguration(this.getExternalConfig(prefix, id));
-        compositeConfiguration.addConfiguration(this.getPropertiesConfig(prefix, id));
-        return compositeConfiguration;
-    }
 
-    public Configuration getConfiguration() {
-        return getConfiguration(null, null);
-    }
+
 
     private static String toKey(String prefix, String id) {
         StringBuilder sb = new StringBuilder();
@@ -150,13 +129,7 @@ public class Environment extends LifecycleAdapter implements FrameworkExt {
         return CommonConstants.DUBBO;
     }
 
-    public boolean isConfigCenterFirst() {
-        return configCenterFirst;
-    }
 
-    public void setConfigCenterFirst(boolean configCenterFirst) {
-        this.configCenterFirst = configCenterFirst;
-    }
 
     public Optional<DynamicConfiguration> getDynamicConfiguration() {
         return Optional.ofNullable(dynamicConfiguration);

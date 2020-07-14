@@ -31,13 +31,6 @@ public class EnvironmentConfiguration extends AbstractPrefixConfiguration {
         this(null, null);
     }
 
-    @Override
-    public Object getInternalProperty(String key) {
-        String value = System.getenv(key);
-        if (StringUtils.isEmpty(value)) {
-            value = System.getenv(StringUtils.toOSStyleKey(key));
-        }
-        return value;
-    }
+
 
 }

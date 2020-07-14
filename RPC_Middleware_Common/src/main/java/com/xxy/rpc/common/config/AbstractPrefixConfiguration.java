@@ -34,19 +34,5 @@ public abstract class AbstractPrefixConfiguration implements Configuration {
         this.id = id;
     }
 
-    @Override
-    public Object getProperty(String key, Object defaultValue) {
-        Object value = null;
-        if (StringUtils.isNotEmpty(prefix)) {
-            if (StringUtils.isNotEmpty(id)) {
-                value = getInternalProperty(prefix + id + "." + key);
-            }
-            if (value == null) {
-                value = getInternalProperty(prefix + key);
-            }
-        } else {
-            value = getInternalProperty(key);
-        }
-        return value != null ? value : defaultValue;
-    }
+
 }

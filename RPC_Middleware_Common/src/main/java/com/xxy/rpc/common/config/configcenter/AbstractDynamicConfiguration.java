@@ -89,10 +89,6 @@ public abstract class AbstractDynamicConfiguration implements DynamicConfigurati
         return execute(() -> doGetConfig(key, group), timeout);
     }
 
-    @Override
-    public Object getInternalProperty(String key) {
-        return null;
-    }
 
     @Override
     public final void close() throws Exception {
