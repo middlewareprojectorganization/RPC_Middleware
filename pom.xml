@@ -10,12 +10,9 @@
   <modules>
     <module>RPC_Middleware_Common</module>
     <module>RPC_Middleware_RPC</module>
-    <module>RPC_Middleware_Config</module>
-    <module>RPC_Middleware_Monitor</module>
     <module>RPC_Middleware_Registry</module>
-    <module>RPC_Middleware_Remoting</module>
     <module>RPC_Middleware_ConfigCenter</module>
-      <module>RPC_Middleware_Demo</module>
+    <module>RPC_Middleware_Core</module>
   </modules>
   <packaging>pom</packaging>
 
