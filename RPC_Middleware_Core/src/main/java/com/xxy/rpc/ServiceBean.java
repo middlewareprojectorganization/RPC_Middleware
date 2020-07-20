@@ -1,6 +1,6 @@
 package com.xxy.rpc;
 
-import com.xxy.config.ServiceConfig;
+import com.xxy.rpc.config.ServiceConfig;
 import com.xxy.rpc.spring.annotation.Service;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanNameAware;

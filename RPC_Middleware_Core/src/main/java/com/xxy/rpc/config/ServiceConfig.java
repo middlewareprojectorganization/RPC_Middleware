@@ -1,4 +1,6 @@
-package com.xxy.config;
+package com.xxy.rpc.config;
+
+import com.xxy.config.AbstractConfig;
 
 /**
  * @Author: XXY
