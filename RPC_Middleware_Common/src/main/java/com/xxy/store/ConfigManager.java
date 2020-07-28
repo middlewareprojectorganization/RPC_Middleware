@@ -24,14 +24,18 @@ public class ConfigManager {
     public void addRegistryConfig(RegistryConfig registryConfig){
         addConfig(registryConfig);
     }
-    public void addService(ServiceConfig serviceConfig){
+    public void addService(ServiceConfigBase serviceConfig){
         addConfig(serviceConfig);
     }
-    public void addReference(ReferenceConfig referenceConfig){
+    public void addReference(ReferenceConfigBase referenceConfig){
         addConfig(referenceConfig);
     }
-    public Collection<ReferenceConfig> getReferences(){
-        return getConfigs(getTagName(ReferenceConfig.class));
+    public Collection<ReferenceConfigBase> getReferences(){
+        return getConfigs(getTagName(ReferenceConfigBase.class));
+    }
+
+    public RegistryConfig getRegistry(){
+        return getConfig(getTagName(RegistryConfig.class));
     }
 
     protected  <C extends AbstractConfig> Collection<C> getConfigs(String configType){

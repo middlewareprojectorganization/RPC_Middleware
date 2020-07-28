@@ -49,9 +49,10 @@
             <groupId>com.alibaba.spring</groupId>
             <artifactId>spring-context-support</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.xxy.rpc</groupId>
-            <artifactId>RPC_Middleware_Common</artifactId>
+            <artifactId>RPC_Middleware_Registry</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

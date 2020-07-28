@@ -23,9 +23,14 @@ public class RpcBootStrap {
     }
 
     public void init(){
+        //开启配置中心
         startConfigCenter();
+        //加载刷新远程配置
+        loadRemoteConfig();
 
+    }
 
+    private void loadRemoteConfig() {
     }
 
     private void startConfigCenter() {
