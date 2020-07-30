@@ -1,6 +1,7 @@
 package com.xxy.rpc.registry;
 
 
+import com.xxy.URL;
 import com.xxy.api.Invoker;
 
 /**
@@ -14,11 +15,24 @@ public class RpcRegistryCoreHandler {
         //启动服务器
         return null;
     }
-    public Invoker refer(){
+    public Invoker refer(URL url){
         //先注册
-
+        Registry registry = beginRegistry(url);
         //获取想要引用服务的URL
+        URL serviceUrl = fetchReferServiceUrl(registry);
         //获得能引用服务的invoker
+        return createInvoker(serviceUrl);
+    }
+
+    private Invoker createInvoker(URL serviceUrl) {
+        return null;
+    }
+
+    private URL fetchReferServiceUrl(Registry registry) {
+        return null;
+    }
+
+    private Registry beginRegistry(URL url) {
         return null;
     }
 }
