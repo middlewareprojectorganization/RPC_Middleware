@@ -2,16 +2,12 @@ package com.xxy.configcenter;
 
 import com.xxy.URL;
 import com.xxy.configcenter.server.ConfigListenerServer;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
+import com.xxy.util.HttpAgent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.management.resources.agent;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * @Author: XXY

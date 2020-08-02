@@ -10,5 +10,5 @@ import com.xxy.rpc.registry.Registry;
 public interface RegistryCenterService {
     void registry(URL url);
 
-    Registry getReferServiceInfo();
+    URL getReferServiceInfo(String host, Integer port, String className);
 }
