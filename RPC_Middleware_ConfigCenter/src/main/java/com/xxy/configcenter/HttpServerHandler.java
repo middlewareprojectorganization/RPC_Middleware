@@ -1,4 +1,4 @@
-package com.xxy.configcenter.server;
+package com.xxy.configcenter;
 
 import com.xxy.configcenter.HttpConfigClient;
 import com.xxy.configcenter.Listener;

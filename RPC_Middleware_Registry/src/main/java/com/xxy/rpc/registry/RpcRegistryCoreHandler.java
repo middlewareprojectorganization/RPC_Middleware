@@ -3,12 +3,19 @@ package com.xxy.rpc.registry;
 
 import com.xxy.URL;
 import com.xxy.api.Invoker;
+import com.xxy.netty.RpcInvoker;
+import com.xxy.rpc.RegistryCenterService;
+import com.xxy.rpc.RegistryCenterServiceImpl;
 
 /**
  * @Author: XXY
  * @Date: 2020/7/27 23:59
  */
 public class RpcRegistryCoreHandler {
+    private final RegistryCenterService registryCenterService;
+    public RpcRegistryCoreHandler(){
+        registryCenterService = new RegistryCenterServiceImpl();
+    }
     public Invoker export(){
         //先注册
         //导出服务
@@ -17,22 +24,20 @@ public class RpcRegistryCoreHandler {
     }
     public Invoker refer(URL url){
         //先注册
-        Registry registry = beginRegistry(url);
+         beginRegistry(url);
         //获取想要引用服务的URL
-        URL serviceUrl = fetchReferServiceUrl(registry);
+        URL serviceUrl = registryCenterService.getReferServiceInfo(url.getHost(), url.getPort(), url.getParam().get("className").toString());
         //获得能引用服务的invoker
         return createInvoker(serviceUrl);
     }
 
     private Invoker createInvoker(URL serviceUrl) {
-        return null;
+        return new RpcInvoker(serviceUrl);
     }
 
-    private URL fetchReferServiceUrl(Registry registry) {
-        return null;
-    }
 
-    private Registry beginRegistry(URL url) {
-        return null;
+
+    private void beginRegistry(URL url) {
+        registryCenterService.registry(url);
     }
 }
