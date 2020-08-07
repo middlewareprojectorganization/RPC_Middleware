@@ -1,5 +1,6 @@
 package com.xxy.rpc;
 
+import com.xxy.URL;
 import com.xxy.rpc.config.ServiceConfig;
 import com.xxy.rpc.spring.annotation.Service;
 import org.springframework.beans.BeansException;
@@ -57,5 +58,10 @@ public class ServiceBean extends ServiceConfig implements InitializingBean, Disp
     @Override
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
 
+    }
+
+    @Override
+    public URL toUrl() {
+        return null;
     }
 }
