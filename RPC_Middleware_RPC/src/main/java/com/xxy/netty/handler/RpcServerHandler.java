@@ -1,6 +1,6 @@
 package com.xxy.netty.handler;
 
-import com.xxy.netty.request.RpcRequest;
+import com.xxy.request.RpcRequest;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;

@@ -1,6 +1,7 @@
 package com.xxy.api;
 
 import com.xxy.URL;
+import com.xxy.request.RpcRequest;
 import com.xxy.result.Result;
 
 /**
@@ -8,5 +9,5 @@ import com.xxy.result.Result;
  * @Date: 2020/7/17 21:17
  */
 public interface Invoker {
-    public Result invoke();
+    public Result invoke(RpcRequest rpcRequest);
 }

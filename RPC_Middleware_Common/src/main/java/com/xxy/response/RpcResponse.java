@@ -1,4 +1,4 @@
-package com.xxy.netty.response;
+package com.xxy.response;
 
 import java.io.Serializable;
 

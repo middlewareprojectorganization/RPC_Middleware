@@ -2,6 +2,7 @@ package com.xxy.netty;
 
 import com.xxy.URL;
 import com.xxy.api.Invoker;
+import com.xxy.request.RpcRequest;
 import com.xxy.result.Result;
 
 /**
@@ -16,7 +17,7 @@ public class RpcInvoker implements Invoker {
     }
 
     @Override
-    public Result invoke() {
+    public Result invoke(RpcRequest rpcRequest) {
         //通过netty返回结果
         return null;
     }

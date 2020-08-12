@@ -1,4 +1,4 @@
-package com.xxy.netty.request;
+package com.xxy.request;
 
 import java.io.Serializable;
 

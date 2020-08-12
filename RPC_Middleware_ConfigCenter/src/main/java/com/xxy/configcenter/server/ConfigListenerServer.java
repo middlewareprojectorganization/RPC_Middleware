@@ -19,7 +19,7 @@ public class ConfigListenerServer{
     private final NettyServer server;
     public ConfigListenerServer(URL url){
         this.url = url;
-        server = new NettyServer(url);
+        server = new NettyServer(this.url);
         server.addHandler(new HttpServerHandler());
     }
     public void start() throws Exception{

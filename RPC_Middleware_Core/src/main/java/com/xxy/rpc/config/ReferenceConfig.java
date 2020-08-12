@@ -2,7 +2,9 @@ package com.xxy.rpc.config;
 
 import com.xxy.URL;
 import com.xxy.api.Invoker;
+import com.xxy.api.ProxyFactory;
 import com.xxy.config.ReferenceConfigBase;
+import com.xxy.proxy.JavassistProxyFactory;
 import com.xxy.rpc.RpcBootStrap;
 import com.xxy.rpc.registry.RpcRegistryCoreHandler;
 
@@ -19,7 +21,7 @@ public class ReferenceConfig extends ReferenceConfigBase {
     private transient volatile Object ref;
     private transient volatile boolean initialized;
     private static final RpcRegistryCoreHandler HANDLER = new RpcRegistryCoreHandler();
-
+    private static final ProxyFactory PROXY_FACTORY = new JavassistProxyFactory();
     public void setBootstrap(RpcBootStrap bootstrap) {
         this.bootstrap = bootstrap;
     }
@@ -46,7 +48,8 @@ public class ReferenceConfig extends ReferenceConfigBase {
         checkRegistry();
         //引用服务
         URL registryUrl = getRegistryConfig().toUrl();
-        invoker = HANDLER.refer();
+        invoker = HANDLER.refer(registryUrl);
+
         return null;
     }
 }
