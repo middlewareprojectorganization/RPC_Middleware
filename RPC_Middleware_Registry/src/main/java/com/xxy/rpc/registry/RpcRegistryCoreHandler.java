@@ -3,6 +3,7 @@ package com.xxy.rpc.registry;
 
 import com.xxy.URL;
 import com.xxy.api.Invoker;
+import com.xxy.netty.NettyServer;
 import com.xxy.netty.RpcInvoker;
 import com.xxy.rpc.RegistryCenterService;
 import com.xxy.rpc.RegistryCenterServiceImpl;
@@ -16,11 +17,15 @@ public class RpcRegistryCoreHandler {
     public RpcRegistryCoreHandler(){
         registryCenterService = new RegistryCenterServiceImpl();
     }
-    public Invoker export(){
+    public Invoker export(URL url){
         //先注册
+        beginRegistry(url);
         //导出服务
+        registryCenterService.registry(url);
         //启动服务器
-        return null;
+        NettyServer nettyServer = new NettyServer(url);
+        nettyServer.start();
+        return createInvoker(url);
     }
     public Invoker refer(URL url){
         //先注册
